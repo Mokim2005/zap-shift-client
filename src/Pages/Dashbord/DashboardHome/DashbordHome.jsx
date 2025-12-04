@@ -1,0 +1,22 @@
+import React from "react";
+
+import UseRole from "../../../Hooks/UseRole";
+import Loading from "../../../Components/Loading";
+import AdminDashboardHome from "./AdminDashboardHome";
+import RiderDashboardHome from "./RiderDashboardHome";
+
+const DashbordHome = () => {
+  const { role, roleLoading } = UseRole();
+
+  if (roleLoading) {
+    return <Loading></Loading>;
+  } else if (role === "admin") {
+    return <AdminDashboardHome></AdminDashboardHome>;
+  } else if (role === "rider") {
+    return <RiderDashboardHome></RiderDashboardHome>;
+  } else {
+    return <UserDashboardHome></UserDashboardHome>;
+  }
+};
+
+export default DashbordHome;
