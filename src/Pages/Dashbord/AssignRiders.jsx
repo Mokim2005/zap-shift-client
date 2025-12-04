@@ -19,7 +19,7 @@ const AssignRiders = () => {
       return res.data;
     },
   });
-  const { data: riders = [] } = useQuery({
+  const { data: riders = [], refetch: riderRefetch } = useQuery({
     queryKey: ["riders", selectedParcel?.senderDistrict, "available"],
     enabled: !!selectedParcel?.senderDistrict,
 
@@ -49,9 +49,9 @@ const AssignRiders = () => {
       .patch(`/parcels/${selectedParcel._id}`, riderAssginInfo)
       .then((res) => {
         if (res.data.modifiedCount) {
+          riderModalRef.current.close();
           parcelRefetch();
-          const modal = document.querySelector("dialog");
-          modal.close();
+          riderRefetch();
           Swal.fire({
             position: "top-end",
             icon: "success",
