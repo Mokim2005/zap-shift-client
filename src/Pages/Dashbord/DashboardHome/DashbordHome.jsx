@@ -4,6 +4,7 @@ import UseRole from "../../../Hooks/UseRole";
 import Loading from "../../../Components/Loading";
 import AdminDashboardHome from "./AdminDashboardHome";
 import RiderDashboardHome from "./RiderDashboardHome";
+import UserDashboardHome from "./UserDashboardHome";
 
 const DashbordHome = () => {
   const { role, roleLoading } = UseRole();
