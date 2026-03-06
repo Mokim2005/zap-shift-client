@@ -6,18 +6,19 @@ import Brands from "./Brands";
 import OurFeater from "./OurFeater";
 import Reviews from "./Reviews";
 import GlassContainer from "../../Components/GlassContainer";
+import "./HomeComponents.css";
 
 const reviewsPromise = fetch("/reviews.json").then((res) => res.json());
 
 const Home = () => {
   return (
     <GlassContainer>
-      <Banner></Banner>
-      <BannerCard></BannerCard>
-      <BannerBox></BannerBox>
-      <Brands></Brands>
-      <OurFeater></OurFeater>
-      <Reviews reviewsPromise={reviewsPromise}></Reviews>
+      <Banner />
+      <BannerCard />
+      <BannerBox />
+      <Brands />
+      <OurFeater />
+      <Reviews reviewsPromise={reviewsPromise} />
     </GlassContainer>
   );
 };
