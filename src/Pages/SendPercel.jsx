@@ -1,7 +1,8 @@
-import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
+import { Package, User, MapPin, Mail, Weight, Send } from "lucide-react";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 import UseAuth from "../Hooks/UseAuth";
 
@@ -9,19 +10,17 @@ const SendPercel = () => {
   const {
     register,
     handleSubmit,
-    // formState: { errors },
     control,
   } = useForm();
 
   const { user } = UseAuth();
   const axiosSecure = UseAxiosSecure();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const serviceCenter = useLoaderData();
 
   const regionsDupicate = serviceCenter.map((c) => c.region);
   const regions = [...new Set(regionsDupicate)];
-  console.log(regions);
   const senderRegion = useWatch({ control, name: "senderRegion" });
   const recieverRegion = useWatch({ control, name: "senderRegion" });
 
@@ -63,11 +62,10 @@ const SendPercel = () => {
       confirmButtonText: "Confurm and contunue payment!",
     }).then((result) => {
       if (result.isConfirmed) {
-        //save the parcel info to theke database
         axiosSecure.post("/parcels", data).then((res) => {
           console.log("after saving the parcles", res.data);
           if (res.data.insertedId) {
-            navigate('/dashboard/my-parcels')
+            navigate('/dashboard/my-parcels');
             Swal.fire({
               position: "top-end",
               icon: "success",
@@ -80,206 +78,282 @@ const SendPercel = () => {
       }
     });
   };
+
   return (
-    <div>
-      <h2 className="text-5xl font-bold">Send A Percel</h2>
-      <form
-        onSubmit={handleSubmit(handleSendParcel)}
-        className="mt-12 text-black p-4"
-      >
-        {/* pacel type */}
-        <div className="space-x-3">
-          <label className="label cursor-pointer">
-            <input
-              type="radio"
-              {...register("parcelType", { required: true })}
-              className="radio"
-              value="Document"
-              defaultChecked
-            />
-            <span className="ml-2">Document</span>
-          </label>
-
-          <label className="label cursor-pointer">
-            <input
-              type="radio"
-              {...register("parcelType", { required: true })}
-              className="radio"
-              value="Non-Document"
-            />
-            <span className="ml-2">Non-Document</span>
-          </label>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen py-8 px-4 sm:px-6 lg:px-8"
+    >
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+            Send a Parcel
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            Fast, reliable, and secure delivery service
+          </p>
         </div>
 
-        {/* percel info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 my-6 gap-12">
-          <fieldset className="fieldset">
-            <label className="label">Parcel Name</label>
-            <input
-              type="text"
-              {...register("parcelName")}
-              className="input w-full"
-              placeholder="Parcel Name"
-            />
-          </fieldset>
-          <fieldset className="fieldset">
-            <label className="label">Parcel Weight (kg)</label>
-            <input
-              type="number"
-              {...register("parcelWeight")}
-              className="input w-full"
-              placeholder="Parcel Weight"
-            />
-          </fieldset>
-        </div>
-        {/* two column */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* sender info */}
+        {/* Main Form Card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40 dark:border-gray-700/40 p-6 md:p-8"
+        >
+          <form onSubmit={handleSubmit(handleSendParcel)} className="space-y-8">
+            {/* Parcel Type Selection */}
+            <div className="space-y-3">
+              <label className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <Package className="w-5 h-5" />
+                Parcel Type
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <label className="relative cursor-pointer group">
+                  <input
+                    type="radio"
+                    {...register("parcelType", { required: true })}
+                    value="Document"
+                    defaultChecked
+                    className="peer sr-only"
+                  />
+                  <div className="p-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 dark:peer-checked:bg-indigo-900/30 peer-checked:shadow-lg transition-all duration-200 hover:border-indigo-400">
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full border-2 border-gray-400 dark:border-gray-500 peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                      </div>
+                      <span className="font-medium text-gray-900 dark:text-white">Document</span>
+                    </div>
+                  </div>
+                </label>
 
-          <fieldset className="fieldset">
-            <h4 className="text-2xl font-semibold">Sender Details</h4>
-            {/* sender name  */}
-            <label className="label">Sender Name</label>
-            <input
-              type="text"
-              {...register("senderName")}
-              defaultValue={user?.displayName}
-              className="input w-full"
-              placeholder="Sender Name"
-            />
-            {/* sender email  */}
-            <label className="label">Sender Email</label>
-            <input
-              type="email"
-              {...register("senderEmail")}
-              defaultValue={user?.email}
-              className="input w-full"
-              placeholder="Sender Email"
-            />
+                <label className="relative cursor-pointer group">
+                  <input
+                    type="radio"
+                    {...register("parcelType", { required: true })}
+                    value="Non-Document"
+                    className="peer sr-only"
+                  />
+                  <div className="p-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 dark:peer-checked:bg-indigo-900/30 peer-checked:shadow-lg transition-all duration-200 hover:border-indigo-400">
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full border-2 border-gray-400 dark:border-gray-500 peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                      </div>
+                      <span className="font-medium text-gray-900 dark:text-white">Non-Document</span>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
 
-            {/* sender region  */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Sender Regions</legend>
-              <select
-                {...register("senderRegion")}
-                defaultValue="Pick a rigion"
-                className="select"
-              >
-                <option disabled={true}>Pick a Regions</option>
+            {/* Parcel Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <Package className="w-4 h-4" />
+                  Parcel Name
+                </label>
+                <input
+                  type="text"
+                  {...register("parcelName")}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  placeholder="Enter parcel name"
+                />
+              </div>
 
-                {regions.map((r, i) => (
-                  <option key={i} value={r}>
-                    {r}
-                  </option>
-                ))}
-              </select>
-              <span className="label">Optional</span>
-            </fieldset>
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <Weight className="w-4 h-4" />
+                  Parcel Weight (kg)
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  {...register("parcelWeight")}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  placeholder="Enter weight"
+                />
+              </div>
+            </div>
 
-            {/* sender district  */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Sender District</legend>
-              <select
-                {...register("senderDistrict")}
-                defaultValue="Pick a district"
-                className="select"
-              >
-                <option disabled={true}>Pick a District</option>
+            {/* Sender and Receiver Details */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Sender Details */}
+              <div className="space-y-6 p-6 rounded-xl bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800">
+                <h3 className="flex items-center gap-2 text-xl font-semibold text-gray-900 dark:text-white">
+                  <User className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  Sender Details
+                </h3>
 
-                {districtByRegions(senderRegion).map((c, i) => (
-                  <option key={i} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-              <span className="label">Optional</span>
-            </fieldset>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                    <input
+                      type="text"
+                      {...register("senderName")}
+                      defaultValue={user?.displayName}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      placeholder="Sender name"
+                    />
+                  </div>
 
-            {/* sender address  */}
-            <label className="label mt-4">Sender Address</label>
-            <input
-              type="text"
-              {...register("senderAddress")}
-              className="input w-full"
-              placeholder="Sender Address"
-            />
-          </fieldset>
-          {/* receiver info */}
-          <fieldset className="fieldset">
-            <h4 className="text-2xl font-semibold">Reciever Details</h4>
-            {/* receiver name  */}
-            <label className="label">Reciever Name</label>
-            <input
-              type="text"
-              {...register("recieverName")}
-              className="input w-full"
-              placeholder="reciever Name"
-            />
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <Mail className="w-4 h-4" />
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      {...register("senderEmail")}
+                      defaultValue={user?.email}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      placeholder="sender@email.com"
+                    />
+                  </div>
 
-            {/* reciever email  */}
-            <label className="label">Receiver Email</label>
-            <input
-              type="email"
-              {...register("recieverEmail")}
-              className="input w-full"
-              placeholder="reciever Email"
-            />
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <MapPin className="w-4 h-4" />
+                      Region
+                    </label>
+                    <select
+                      {...register("senderRegion")}
+                      defaultValue="Pick a rigion"
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    >
+                      <option disabled>Pick a Regions</option>
+                      {regions.map((r, i) => (
+                        <option key={i} value={r}>{r}</option>
+                      ))}
+                    </select>
+                  </div>
 
-            {/* reciever region  */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Reciever Regions</legend>
-              <select
-                {...register("recieverRegion")}
-                defaultValue="Pick a rigion"
-                className="select"
-              >
-                <option disabled={true}>Pick a Regions</option>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">District</label>
+                    <select
+                      {...register("senderDistrict")}
+                      defaultValue="Pick a district"
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    >
+                      <option disabled>Pick a District</option>
+                      {districtByRegions(senderRegion).map((c, i) => (
+                        <option key={i} value={c}>{c}</option>
+                      ))}
+                    </select>
+                  </div>
 
-                {regions.map((r, i) => (
-                  <option key={i} value={r}>
-                    {r}
-                  </option>
-                ))}
-              </select>
-              <span className="label">Optional</span>
-            </fieldset>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
+                    <input
+                      type="text"
+                      {...register("senderAddress")}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      placeholder="Full address"
+                    />
+                  </div>
+                </div>
+              </div>
 
-            {/* reciever district  */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Reciever District</legend>
-              <select
-                {...register("recieverDistrict")}
-                defaultValue="Pick a district"
-                className="select"
-              >
-                <option disabled={true}>Pick a District</option>
+              {/* Receiver Details */}
+              <div className="space-y-6 p-6 rounded-xl bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-800">
+                <h3 className="flex items-center gap-2 text-xl font-semibold text-gray-900 dark:text-white">
+                  <User className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  Receiver Details
+                </h3>
 
-                {districtByRegions(recieverRegion).map((d, i) => (
-                  <option key={i} value={d}>
-                    {d}
-                  </option>
-                ))}
-              </select>
-              <span className="label">Optional</span>
-            </fieldset>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                    <input
+                      type="text"
+                      {...register("recieverName")}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                      placeholder="Receiver name"
+                    />
+                  </div>
 
-            {/* receiver address  */}
-            <label className="label mt-4">Reciever Address</label>
-            <input
-              type="text"
-              {...register("recieverAddress")}
-              className="input w-full"
-              placeholder="reciever Address"
-            />
-          </fieldset>
-        </div>
-        <input
-          type="submit"
-          className="btn btn-primary text-black mt-4"
-          value="Send Parcel"
-        />
-      </form>
-    </div>
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <Mail className="w-4 h-4" />
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      {...register("recieverEmail")}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                      placeholder="receiver@email.com"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <MapPin className="w-4 h-4" />
+                      Region
+                    </label>
+                    <select
+                      {...register("recieverRegion")}
+                      defaultValue="Pick a rigion"
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    >
+                      <option disabled>Pick a Regions</option>
+                      {regions.map((r, i) => (
+                        <option key={i} value={r}>{r}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">District</label>
+                    <select
+                      {...register("recieverDistrict")}
+                      defaultValue="Pick a district"
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    >
+                      <option disabled>Pick a District</option>
+                      {districtByRegions(recieverRegion).map((d, i) => (
+                        <option key={i} value={d}>{d}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
+                    <input
+                      type="text"
+                      {...register("recieverAddress")}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                      placeholder="Full address"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Pricing Info Card */}
+            <div className="p-4 rounded-xl bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-200 dark:border-indigo-800">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
+                <span className="font-semibold">Pricing:</span> Documents start at 60 tk (same district) or 80 tk (different district). 
+                Non-documents start at 110 tk (same district) or 150 tk (different district) for up to 3kg, with additional charges for extra weight.
+              </p>
+            </div>
+
+            {/* Submit Button */}
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <Send className="w-5 h-5" />
+              Send Parcel
+            </motion.button>
+          </form>
+        </motion.div>
+      </div>
+    </motion.div>
   );
 };
 
