@@ -9,6 +9,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
+// Initialize theme on app load
+const savedTheme = localStorage.getItem("theme") || "light";
+if (savedTheme === "dark") {
+  document.documentElement.classList.add("dark");
+} else {
+  document.documentElement.classList.remove("dark");
+}
+
 // Prevent transition on page load
 document.documentElement.classList.add('preload');
 window.addEventListener('load', () => {

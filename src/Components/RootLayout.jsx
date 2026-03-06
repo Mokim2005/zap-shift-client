@@ -10,7 +10,7 @@ const RootLayout = () => {
       <GlobalBackground />
       
       {/* Main content wrapper */}
-      <div className="relative min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors duration-200">
+      <div className="relative min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 pt-16">
           <Outlet />

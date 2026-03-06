@@ -1,4 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #3b82f6;
+  --color-secondary: #06b6d4;
+}
+
 @plugin "daisyui" {
   themes: light --default;
 }
@@ -12,18 +18,24 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
 
-body {
-  font-family: "Urbanist", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+/* Root styles */
+:root {
+  color-scheme: light;
 }
 
-/* Dark mode support */
 .dark {
   color-scheme: dark;
 }
 
-/* Smooth transitions for theme changes */
+body {
+  font-family: "Urbanist", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+}
+
+/* Smooth transitions for theme changes - exclude transforms */
 * {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

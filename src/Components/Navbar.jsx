@@ -8,8 +8,23 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [theme, setTheme] = useState("light");
+  const [imageError, setImageError] = useState(false);
 
+  // Initialize theme from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    
+    // Apply theme immediately
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -18,17 +33,17 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (theme === "dark") {
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    
+    if (newTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
   };
 
   const handleLogOut = () => {
@@ -39,6 +54,15 @@ const Navbar = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const getProfileImage = () => {
+    if (!user) return "";
+    if (imageError || !user.photoURL) {
+      const name = encodeURIComponent(user.displayName || user.email || "User");
+      return `https://ui-avatars.com/api/?name=${name}&background=2563eb&color=ffffff&size=128`;
+    }
+    return user.photoURL;
   };
 
   const navLinks = [
@@ -61,8 +85,8 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-lg"
-          : "bg-white dark:bg-gray-900"
+          ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-lg"
+          : "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,8 +141,9 @@ const Navbar = () => {
                   className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                 >
                   <img
-                    src={user.photoURL || "https://ui-avatars.com/api/?name=" + (user.displayName || user.email)}
+                    src={getProfileImage()}
                     alt="Profile"
+                    onError={() => setImageError(true)}
                     className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700"
                   />
                   <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -222,8 +247,9 @@ const Navbar = () => {
                 <>
                   <div className="flex items-center space-x-3 px-4 py-2">
                     <img
-                      src={user.photoURL || "https://ui-avatars.com/api/?name=" + (user.displayName || user.email)}
+                      src={getProfileImage()}
                       alt="Profile"
+                      onError={() => setImageError(true)}
                       className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700"
                     />
                     <div className="flex-1 min-w-0">
