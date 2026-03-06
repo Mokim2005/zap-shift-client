@@ -85,4 +85,46 @@ Perfect for building scalable parcel delivery platforms with minimal backend com
 
 ---
 
+## 🎨 New Glass Design System
+
+The project now features a modern, animated glassmorphism design system with:
+
+- **Global Animated Background** - Smooth floating gradient blobs
+- **Glass Components** - Reusable card, button, and container components
+- **Premium UI** - Clean, minimal, modern SaaS-style interface
+- **Optimized Performance** - GPU-accelerated animations at 60fps
+
+### Quick Start
+
+```bash
+# Install dependencies
+npm install framer-motion gsap
+
+# Start development server
+npm run dev
+```
+
+### Documentation
+
+- 📖 [Complete Design System Guide](GLASS_DESIGN_SYSTEM.md)
+- 🚀 [Implementation Steps](IMPLEMENTATION_STEPS.md)
+- 📋 [Quick Reference](QUICK_REFERENCE.md)
+- 🎯 [Background System Guide](BACKGROUND_SYSTEM_GUIDE.md)
+
+### Example Usage
+
+```jsx
+import GlassCard from './Components/GlassCard';
+import GlassButton from './Components/GlassButton';
+
+<GlassCard className="p-8">
+  <h1>Welcome to Zap Shift</h1>
+  <GlassButton variant="primary">Get Started</GlassButton>
+</GlassCard>
+```
+
+View the complete showcase at `src/Pages/GlassDesignShowcase.jsx`
+
+---
+
 **Happy Building!** 📦✨
