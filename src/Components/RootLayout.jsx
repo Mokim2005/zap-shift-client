@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { Outlet } from "react-router";
@@ -11,9 +10,9 @@ const RootLayout = () => {
       <GlobalBackground />
       
       {/* Main content wrapper */}
-      <div className="relative min-h-screen">
+      <div className="relative min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors duration-200">
         <Navbar />
-        <main className="max-w-7xl mx-auto">
+        <main className="flex-1 pt-16">
           <Outlet />
         </main>
         <Footer />
