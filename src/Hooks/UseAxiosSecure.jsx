@@ -1,7 +1,9 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import UseAuth from "./UseAuth";
 import { useNavigate } from "react-router";
+import { getIdToken } from "firebase/auth"; // Firebase v9+
+import { auth } from "../Firebase/Firebase.init"; // আপনার firebase config ফাইল
 
 const axiosSecure = axios.create({
   baseURL: "https://zap-shift-server-tawny.vercel.app",
@@ -14,16 +16,12 @@ const UseAxiosSecure = () => {
   useEffect(() => {
     // REQUEST INTERCEPTOR
     const reqInterceptor = axiosSecure.interceptors.request.use(
-      (config) => {
-        const token = user?.accessToken;
-
-        // prevent crash
+      async (config) => {
         config.headers = config.headers || {};
-
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
+        if (user) {
+          const idToken = await getIdToken(user); // ✅ Firebase ID token
+          config.headers.Authorization = `Bearer ${idToken}`;
         }
-
         return config;
       },
       (error) => Promise.reject(error)
@@ -32,13 +30,12 @@ const UseAxiosSecure = () => {
     // RESPONSE INTERCEPTOR
     const resInterceptor = axiosSecure.interceptors.response.use(
       (response) => response,
-      (error) => {
-        console.log("AXIOS ERROR:", error);
-
+      async (error) => {
         const statusCode = error?.response?.status;
 
         if (statusCode === 401 || statusCode === 403) {
-          logOut().then(() => navigate("/login"));
+          await logOut();
+          navigate("/login");
         }
 
         return Promise.reject(error);

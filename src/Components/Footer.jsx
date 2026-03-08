@@ -66,7 +66,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <Logo />
+           <div className="flex items-center gap-2">
+             <Logo />
+             <h2 className="font-semibold text-2xl">SwiftParcel</h2>
+           </div>
+
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400 max-w-sm">
               Fast, reliable, and secure parcel delivery service. We deliver your packages with care and speed across the nation.
             </p>

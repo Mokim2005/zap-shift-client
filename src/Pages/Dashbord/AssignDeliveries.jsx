@@ -8,6 +8,7 @@ const AssignDeliveries = () => {
   const { user } = UseAuth();
   const axiosSecure = UseAxiosSecure();
 
+  // Fetch parcels assigned to this rider
   const { data: parcels = [], refetch } = useQuery({
     queryKey: ["parcels", user.email, "driver-assigned"],
     queryFn: async () => {
@@ -18,6 +19,25 @@ const AssignDeliveries = () => {
     },
   });
 
+  // Confirm + Update parcel status
+  const confirmStatusUpdate = (parcel, status) => {
+    const statusText = status.split("_").join(" ");
+    Swal.fire({
+      title: `Are you sure?`,
+      text: `Parcel status will be updated to "${statusText}"`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#22c55e",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: `Yes, update it!`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleStatusUpdate(parcel, status);
+      }
+    });
+  };
+
+  // Update parcel status
   const handleStatusUpdate = (parcel, status) => {
     const statusInfo = {
       deliveryStatus: status,
@@ -25,9 +45,7 @@ const AssignDeliveries = () => {
       trackingId: parcel.trackingId,
     };
 
-    let message = `parcel status is updated with ${status
-      .split("_")
-      .join(" ")}`;
+    const message = `Parcel status is updated to ${status.split("_").join(" ")}`;
 
     axiosSecure
       .patch(`/parcels/${parcel._id}/status`, statusInfo)
@@ -42,22 +60,29 @@ const AssignDeliveries = () => {
             timer: 2500,
           });
         }
+      })
+      .catch((err) => {
+        console.error(err);
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Something went wrong.",
+        });
       });
   };
 
   return (
     <div>
-      <h2 className="text-4xl">Parcels Pending Pikup : {parcels.length}</h2>
+      <h2 className="text-4xl mb-4">Parcels Pending Pickup: {parcels.length}</h2>
 
       <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          {/* head */}
+        <table className="table table-zebra w-full">
           <thead>
             <tr>
-              <th></th>
+              <th>#</th>
               <th>Name</th>
-              <th>Confurm</th>
-              <th>Other action</th>
+              <th>Confirm</th>
+              <th>Other Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -65,16 +90,22 @@ const AssignDeliveries = () => {
               <tr key={parcel._id}>
                 <th>{i + 1}</th>
                 <td>{parcel.parcelName}</td>
+
+                {/* Confirm / Accept / Reject */}
                 <td>
                   {parcel.deliveryStatus === "driver_assigned" ? (
                     <>
                       <button
-                        onClick={() =>
-                          handleStatusUpdate(parcel, "rider_arriving")
-                        }
+                        onClick={() => confirmStatusUpdate(parcel, "rider_arriving")}
                         className="btn btn-primary text-black mr-2"
                       >
                         Accept
+                      </button>
+                      <button
+                        onClick={() => confirmStatusUpdate(parcel, "driver_rejected")}
+                        className="btn btn-warning text-black"
+                      >
+                        Reject
                       </button>
                     </>
                   ) : (
@@ -82,24 +113,21 @@ const AssignDeliveries = () => {
                       Accepted
                     </span>
                   )}
-                  <button className="btn btn-warning text-black">Reject</button>
                 </td>
+
+                {/* Other actions */}
                 <td>
                   <button
-                    onClick={() =>
-                      handleStatusUpdate(parcel, "parcel_picked_up")
-                    }
+                    onClick={() => confirmStatusUpdate(parcel, "parcel_picked_up")}
                     className="btn btn-primary text-black mr-2"
                   >
-                    Mark as Piked Up
+                    Mark as Picked Up
                   </button>
                   <button
-                    onClick={() =>
-                      handleStatusUpdate(parcel, "parcel_delivered")
-                    }
+                    onClick={() => confirmStatusUpdate(parcel, "parcel_delivered")}
                     className="btn btn-primary text-black mr-2"
                   >
-                    Marked as Delivered
+                    Mark as Delivered
                   </button>
                 </td>
               </tr>

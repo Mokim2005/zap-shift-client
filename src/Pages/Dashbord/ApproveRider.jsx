@@ -12,6 +12,7 @@ const ApproveRider = () => {
   const axiosSecure = UseAxiosSecure();
   const [selectedRider, setSelectedRider] = useState(null);
 
+  // Fetch riders
   const { refetch, data: riders = [] } = useQuery({
     queryKey: ["riders", "pending"],
     queryFn: async () => {
@@ -20,27 +21,53 @@ const ApproveRider = () => {
     },
   });
 
-  const updateRiderStatus = (rider, status) => {
-    axiosSecure
-      .patch(`/riders/${rider._id}/role`, {
-        status,
-        email: rider.email,
-      })
-      .then((res) => {
-        if (res.data.modifiedCount) {
-          refetch();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: `Rider has been ${status}`,
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        }
-      });
+  // Confirm + Update rider status
+  const confirmUpdateStatus = (rider, status) => {
+    Swal.fire({
+      title: `Are you sure?`,
+      text: `Rider will be ${status}`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: status === "approve" ? "#22c55e" : "#f97316",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: `Yes, ${status} it!`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        updateRiderStatus(rider, status);
+      }
+    });
   };
 
-  const handleDelete = (id) => {
+  // Update rider status (approve/reject)
+  const updateRiderStatus = async (rider, status) => {
+    try {
+      const res = await axiosSecure.patch(`/riders/${rider._id}/role`, {
+        status,
+        email: rider.email,
+      });
+
+      if (res.data.modifiedCount) {
+        refetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `Rider has been ${status}`,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Something went wrong.",
+      });
+    }
+  };
+
+  // Confirm + Delete rider
+  const confirmDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "This rider request will be deleted!",
@@ -51,12 +78,17 @@ const ApproveRider = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/riders/${id}`).then((res) => {
-          if (res.data.deletedCount) {
-            refetch();
-            Swal.fire("Deleted!", "Rider request removed.", "success");
-          }
-        });
+        handleDelete(id);
+      }
+    });
+  };
+
+  // Delete rider
+  const handleDelete = (id) => {
+    axiosSecure.delete(`/riders/${id}`).then((res) => {
+      if (res.data.deletedCount) {
+        refetch();
+        Swal.fire("Deleted!", "Rider request removed.", "success");
       }
     });
   };
@@ -71,7 +103,7 @@ const ApproveRider = () => {
             Approve Riders
           </h2>
           <p className="text-gray-500 dark:text-gray-400">
-            Pending: {riders.length}
+            Pending: {riders.filter(r => r.status !== "assigned").length}
           </p>
         </div>
 
@@ -80,12 +112,10 @@ const ApproveRider = () => {
         </div>
       </div>
 
-      {/* Table Card */}
+      {/* Table */}
       <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-
         <div className="w-full overflow-x-auto">
           <table className="w-full min-w-[800px]">
-
             <thead className="bg-gray-50 dark:bg-gray-700/50 border-b">
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase">#</th>
@@ -96,33 +126,44 @@ const ApproveRider = () => {
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase">Actions</th>
               </tr>
             </thead>
-
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
 
               {riders.map((rider, i) => (
                 <motion.tr
                   key={rider._id}
-                  whileHover={{
-                    backgroundColor: "rgba(59,130,246,0.06)",
-                  }}
+                  whileHover={{ backgroundColor: "rgba(59,130,246,0.06)" }}
                   transition={{ duration: 0.2 }}
                   className="transition-all duration-300"
                 >
-
                   <td className="px-6 py-4">{i + 1}</td>
                   <td className="px-6 py-4">{rider.name}</td>
                   <td className="px-6 py-4">{rider.email}</td>
                   <td className="px-6 py-4">{rider.district}</td>
 
+                  {/* Status Label */}
                   <td className="px-6 py-4">
-                    <span className="px-3 py-1 rounded-full text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">
-                      {rider.status}
-                    </span>
+                    {rider.status === "assigned" ? (
+                      <span className="px-3 py-1 rounded-full text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                        Assigned
+                      </span>
+                    ) : rider.status === "approve" ? (
+                      <span className="px-3 py-1 rounded-full text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
+                        Approved
+                      </span>
+                    ) : rider.status === "rejected" ? (
+                      <span className="px-3 py-1 rounded-full text-xs bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">
+                        Rejected
+                      </span>
+                    ) : (
+                      <span className="px-3 py-1 rounded-full text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">
+                        Pending
+                      </span>
+                    )}
                   </td>
 
+                  {/* Actions */}
                   <td className="px-6 py-4">
                     <div className="flex gap-2 flex-wrap">
-
                       <button
                         onClick={() => setSelectedRider(rider)}
                         className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 hover:shadow-md transition-all duration-300"
@@ -130,40 +171,41 @@ const ApproveRider = () => {
                         <FaEye />
                       </button>
 
-                      <button
-                        onClick={() => updateRiderStatus(rider, "approve")}
-                        className="p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 hover:shadow-md transition-all duration-300"
-                      >
-                        <FaUserCheck />
-                      </button>
+                      {rider.status !== "assigned" && (
+                        <>
+                          <button
+                            onClick={() => confirmUpdateStatus(rider, "approve")}
+                            className="p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 hover:shadow-md transition-all duration-300"
+                          >
+                            <FaUserCheck />
+                          </button>
 
-                      <button
-                        onClick={() => updateRiderStatus(rider, "rejected")}
-                        className="p-2 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-200 hover:shadow-md transition-all duration-300"
-                      >
-                        <IoPersonRemoveSharp />
-                      </button>
+                          <button
+                            onClick={() => confirmUpdateStatus(rider, "rejected")}
+                            className="p-2 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-200 hover:shadow-md transition-all duration-300"
+                          >
+                            <IoPersonRemoveSharp />
+                          </button>
 
-                      <button
-                        onClick={() => handleDelete(rider._id)}
-                        className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 hover:shadow-md transition-all duration-300"
-                      >
-                        <FaTrashCan />
-                      </button>
-
+                          <button
+                            onClick={() => confirmDelete(rider._id)}
+                            className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 hover:shadow-md transition-all duration-300"
+                          >
+                            <FaTrashCan />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
-
                 </motion.tr>
               ))}
 
             </tbody>
-
           </table>
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Rider Modal */}
       <AnimatePresence>
         {selectedRider && (
           <motion.div

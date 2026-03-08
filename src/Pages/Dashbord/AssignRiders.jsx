@@ -35,34 +35,33 @@ const AssignRiders = () => {
     setSelectedParcel(parcel);
   };
 
-  const handleAssignRider = (rider) => {
-    const riderAssignInfo = {
-      riderId: rider._id,
-      riderEmail: rider.email,
-      riderName: rider.name,
-      parcelId: selectedParcel._id,
-      trackingId: selectedParcel.trackingId,
-    };
-
-    axiosSecure
-      .patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
-      .then((res) => {
-        if (res.data.modifiedCount) {
-          setSelectedParcel(null);
-          parcelRefetch();
-          riderRefetch();
-
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Rider has been assigned.",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      });
+const handleAssignRider = (rider) => {
+  const riderAssignInfo = {
+    riderId: rider._id,
+    riderEmail: rider.email,
+    riderName: rider.name,
+    parcelId: selectedParcel._id,
+    trackingId: selectedParcel.trackingId,
   };
 
+  axiosSecure
+    .patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
+    .then((res) => {
+      if (res.data.modifiedCount) {
+        setSelectedParcel(null);
+        parcelRefetch();
+        riderRefetch();
+
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Rider has been assigned.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+};
   return (
     <div className="space-y-6">
 

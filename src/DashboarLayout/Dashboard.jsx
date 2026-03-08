@@ -4,7 +4,8 @@ import { Link, NavLink, Outlet } from "react-router";
 import UseRole from "../Hooks/UseRole";
 import { RiEBikeFill } from "react-icons/ri";
 import { SiGoogletasks } from "react-icons/si";
-import LogoImg from "../assets/logo.png";
+import logo from '../Components/Logo'
+import Logo from "../Components/Logo";
 
 const Dashboard = () => {
   const { role } = UseRole();
@@ -64,9 +65,9 @@ const Dashboard = () => {
           <ul className="menu w-full grow p-4 space-y-1">
             {/* Logo */}
             <li className="mb-4">
-              <Link to="/" className="p-0 hover:bg-transparent">
-                <img src={LogoImg} alt="SwiftParcel" className="h-10 is-drawer-close:h-8" />
-              </Link>
+          <Link to="/" className="p-0 hover:bg-transparent">
+              <Logo />
+          </Link>
             </li>
 
             {/* Dashboard Home */}
