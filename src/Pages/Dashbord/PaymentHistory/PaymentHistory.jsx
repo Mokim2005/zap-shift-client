@@ -144,11 +144,8 @@ const PaymentHistory = () => {
         transition={{ duration: 0.6 }}
         className="bg-white/60 dark:bg-white/10 backdrop-blur-xl rounded-2xl border border-white/40 dark:border-gray-700/40 shadow-xl overflow-hidden"
       >
-
-        <div className="overflow-x-auto">
-
-          <table className="w-full">
-
+<div className="w-full overflow-x-auto">
+  <table className="w-full min-w-full table-auto">
             {/* Head */}
             <thead className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800/50 dark:to-green-900/30 border-b border-gray-200 dark:border-gray-700">
               <tr>
@@ -180,17 +177,16 @@ const PaymentHistory = () => {
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
 
               {payments.map((payment, i) => (
-                <motion.tr
-                  key={payment._id || i}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
-                  whileHover={{
-                    scale: 1.01,
-                    backgroundColor: "rgba(16,185,129,0.05)",
-                  }}
-                  className="transition-all duration-300 cursor-pointer"
-                >
+       <motion.tr
+  key={payment._id || i}
+  initial={{ opacity: 0, x: -20 }}
+  animate={{ opacity: 1, x: 0 }}
+  transition={{ duration: 0.3, delay: i * 0.05 }}
+  whileHover={{
+    backgroundColor: "rgba(16,185,129,0.06)",
+  }}
+  className="transition-all duration-300"
+>
 
                   <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                     {i + 1}
