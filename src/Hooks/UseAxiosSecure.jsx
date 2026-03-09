@@ -2,11 +2,11 @@ import axios from "axios";
 import { useEffect } from "react";
 import UseAuth from "./UseAuth";
 import { useNavigate } from "react-router";
-import { getIdToken } from "firebase/auth"; // Firebase v9+
-import { auth } from "../Firebase/Firebase.init"; // আপনার firebase config ফাইল
+import { getIdToken } from "firebase/auth";
 
 const axiosSecure = axios.create({
   baseURL: "https://zap-shift-server-tawny.vercel.app",
+  // https://zap-shift-server-tawny.vercel.app
 });
 
 const UseAxiosSecure = () => {

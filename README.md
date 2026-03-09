@@ -57,7 +57,6 @@ A curated collection of tools, guides, and assets for developing robust **Parcel
   [https://github.com/Mokim2005/zap-shift-server]
 
 - **Admin Dashboard Login**:
-
   - Username: `mamokim2005@gmail.com`
   - Password: `000000`
 
@@ -114,13 +113,13 @@ npm run dev
 ### Example Usage
 
 ```jsx
-import GlassCard from './Components/GlassCard';
-import GlassButton from './Components/GlassButton';
+import GlassCard from "./Components/GlassCard";
+import GlassButton from "./Components/GlassButton";
 
 <GlassCard className="p-8">
   <h1>Welcome to Zap Shift</h1>
   <GlassButton variant="primary">Get Started</GlassButton>
-</GlassCard>
+</GlassCard>;
 ```
 
 View the complete showcase at `src/Pages/GlassDesignShowcase.jsx`
