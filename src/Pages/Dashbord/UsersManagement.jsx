@@ -32,16 +32,12 @@ const UsersManagement = () => {
     queryKey: ["users", debouncedSearch],
     enabled: !!user && !authLoading,
     queryFn: async () => {
-      if (!user) throw new Error("User not authenticated");
-
       const res = await axiosSecure.get("/users", {
         params: debouncedSearch ? { searchText: debouncedSearch } : {},
       });
 
       return res.data || [];
     },
-    staleTime: 30000,
-    retry: 2,
   });
 
   const handleMakeAdmin = async (selectedUser) => {
@@ -96,20 +92,11 @@ const UsersManagement = () => {
     }
   };
 
-  if (authLoading) {
+  if (authLoading || isLoading) {
     return (
       <div className="text-center py-20">
         <div className="animate-spin w-10 h-10 border-4 border-indigo-500 border-r-transparent rounded-full mx-auto"></div>
-        <p className="mt-4 text-lg">Authenticating...</p>
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="text-center py-20">
-        <div className="animate-spin w-10 h-10 border-4 border-indigo-500 border-r-transparent rounded-full mx-auto"></div>
-        <p className="mt-4 text-lg">Loading Users...</p>
+        <p className="mt-4 text-lg">Loading...</p>
       </div>
     );
   }
@@ -133,43 +120,50 @@ const UsersManagement = () => {
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="p-4 md:p-6 space-y-6">
 
-      {/* header */}
-      <div className="flex justify-between items-center">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-bold">Users Management</h2>
-          <p className="text-gray-500">Total Users: {users.length}</p>
+          <h2 className="text-2xl md:text-3xl font-bold">
+            Users Management
+          </h2>
+          <p className="text-gray-500">
+            Total Users: {users.length}
+          </p>
         </div>
 
-        <div className="p-4 bg-indigo-600 text-white rounded-xl shadow-md">
+        <div className="p-4 bg-indigo-600 text-white rounded-xl shadow-md w-fit">
           <Users size={24} />
         </div>
       </div>
 
-      {/* search */}
-      <div className="bg-white shadow-lg rounded-xl p-4">
+      {/* Search */}
+      <div className="bg-white shadow-md rounded-xl p-4">
         <div className="relative">
 
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            size={20}
+          />
 
           <input
             type="search"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             placeholder="Search user..."
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 transition-all"
+            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
           />
 
         </div>
       </div>
 
-      {/* table */}
-      <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-x-auto">
+      {/* Table */}
+      <div className="bg-white rounded-xl shadow-lg overflow-x-auto">
 
-        <table className="w-full">
+        <table className="min-w-[700px] w-full">
 
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-100 text-sm">
             <tr>
               <th className="p-3 text-left">#</th>
               <th className="p-3 text-left">User</th>
@@ -189,16 +183,14 @@ const UsersManagement = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
                 whileHover={{
-                  backgroundColor: "rgba(99,102,241,0.06)",
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.05)",
-                  scale: 1.01
+                  backgroundColor: "rgba(99,102,241,0.06)"
                 }}
-                className="border-b transition-all duration-300"
+                className="border-b"
               >
 
                 <td className="p-3">{i + 1}</td>
 
-                <td className="p-3 flex items-center gap-3">
+                <td className="p-3 flex items-center gap-3 min-w-[200px]">
 
                   <img
                     src={
@@ -207,16 +199,22 @@ const UsersManagement = () => {
                         u.displayName || "User"
                       )}`
                     }
-                    className="w-10 h-10 rounded-full border"
+                    alt="user"
+                    className="w-10 h-10 rounded-full object-cover border"
                   />
 
-                  {u.displayName || "Unknown"}
+                  <span className="truncate">
+                    {u.displayName || "Unknown"}
+                  </span>
 
                 </td>
 
-                <td className="p-3">{u.email}</td>
+                <td className="p-3 text-sm break-all">
+                  {u.email}
+                </td>
 
                 <td className="p-3">
+
                   <span
                     className={`px-3 py-1 text-xs rounded-full ${
                       u.role === "admin"
@@ -226,6 +224,7 @@ const UsersManagement = () => {
                   >
                     {u.role || "user"}
                   </span>
+
                 </td>
 
                 <td className="p-3">
@@ -233,17 +232,17 @@ const UsersManagement = () => {
                   {u.role === "admin" ? (
                     <button
                       onClick={() => handleRemoveAdmin(u)}
-                      className="px-4 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all"
+                      className="flex items-center gap-1 px-3 py-1 text-sm bg-red-100 text-red-600 rounded-lg hover:bg-red-200"
                     >
-                      <FiShieldOff className="inline mr-1" />
-                      Remove Admin
+                      <FiShieldOff />
+                      Remove
                     </button>
                   ) : (
                     <button
                       onClick={() => handleMakeAdmin(u)}
-                      className="px-4 py-1 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 transition-all"
+                      className="flex items-center gap-1 px-3 py-1 text-sm bg-green-100 text-green-600 rounded-lg hover:bg-green-200"
                     >
-                      <FaUserShield className="inline mr-1" />
+                      <FaUserShield />
                       Make Admin
                     </button>
                   )}
@@ -251,6 +250,7 @@ const UsersManagement = () => {
                 </td>
 
               </motion.tr>
+
             ))}
 
           </tbody>
