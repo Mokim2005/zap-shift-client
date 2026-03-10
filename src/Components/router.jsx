@@ -23,6 +23,7 @@ import RiderRout from "../Routs/RiderRout";
 import CompletedDeliveries from "../Pages/Dashbord/CompletedDeliveries";
 import ParcelTrack from "../Pages/ParcelTrack/ParcelTrack";
 import DashbordHome from "../Pages/Dashbord/DashboardHome/DashbordHome";
+import Forbidden from "./Forbidden";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "parcel-track/:trackingId",
         Component: ParcelTrack,
+      },
+      {
+        path: "*",
+        Component: Forbidden,
       },
     ],
   },
@@ -151,6 +156,10 @@ const router = createBrowserRouter([
             <UsersManagement></UsersManagement>
           </AdminRout>
         ),
+      },
+      {
+        path: "*",
+        Component: Forbidden,
       },
     ],
   },
