@@ -165,7 +165,7 @@ const MyProfile = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-fixed bg-center bg-cover relative overflow-hidden" style={{
-        backgroundImage: 'url("https://images.unsplash.com/photo-1618005182384-a83a8e7b9b47?w=1920&q=80")',
+        backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTutUq-QRLeof9NcnMd4ntzLPVhfEMUtWudFA&s")',
         backgroundAttachment: 'fixed'
       }}>
         <div className="absolute inset-0 bg-linear-to-br from-black/40 via-black/30 to-black/40"></div>

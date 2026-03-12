@@ -1,10 +1,9 @@
-import { CiDeliveryTruck } from "react-icons/ci";
+import { CiDeliveryTruck, CiUser } from "react-icons/ci";
 import { FaMotorcycle, FaRegCreditCard, FaTasks, FaUser } from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router";
 import UseRole from "../Hooks/UseRole";
 import { RiEBikeFill } from "react-icons/ri";
 import { SiGoogletasks } from "react-icons/si";
-import logo from '../Components/Logo'
 import Logo from "../Components/Logo";
 
 const Dashboard = () => {
@@ -130,7 +129,7 @@ const Dashboard = () => {
                 data-tip="My Parofile"
                 to="/dashboard/my-profile"
               >
-                <CiDeliveryTruck className="size-5" />
+                <CiUser className="size-5" />
                 <span className="is-drawer-close:hidden font-medium">My Profile</span>
               </NavLink>
             </li>
