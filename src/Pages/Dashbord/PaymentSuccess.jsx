@@ -25,8 +25,7 @@ const PaymentSuccess = () => {
   }, [sessionId, axiosSecure]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-950 dark:to-black">
-
+    <div className="min-h-screen flex items-center justify-center px-4 bg-white dark:bg-gray-900">
       {/* Glass Card */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -34,7 +33,6 @@ const PaymentSuccess = () => {
         transition={{ duration: 0.6 }}
         className="backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 border border-white/40 dark:border-gray-700 shadow-2xl rounded-3xl p-10 max-w-lg w-full text-center space-y-6"
       >
-
         {/* Success Icon Animation */}
         <motion.div
           initial={{ scale: 0 }}
@@ -58,7 +56,8 @@ const PaymentSuccess = () => {
         </motion.h1>
 
         <p className="text-gray-600 dark:text-gray-400">
-          Your payment has been completed successfully. Your parcel is now being processed.
+          Your payment has been completed successfully. Your parcel is now being
+          processed.
         </p>
 
         {/* Info Card */}
@@ -68,7 +67,6 @@ const PaymentSuccess = () => {
           transition={{ delay: 0.3 }}
           className="bg-white/70 dark:bg-gray-800/60 backdrop-blur-lg border border-gray-200 dark:border-gray-700 rounded-xl p-6 space-y-4"
         >
-
           <div className="flex justify-between items-center">
             <span className="font-medium text-gray-600 dark:text-gray-400">
               Transaction ID
@@ -88,21 +86,16 @@ const PaymentSuccess = () => {
               #{paymentInfo.trackingId}
             </span>
           </div>
-
         </motion.div>
 
         {/* Button */}
-        <motion.div
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.95 }}
-        >
+        <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.95 }}>
           <Link to="/dashboard/my-parcels">
             <button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-3 rounded-xl font-semibold transition duration-300 shadow-lg">
               View My Parcels
             </button>
           </Link>
         </motion.div>
-
       </motion.div>
     </div>
   );

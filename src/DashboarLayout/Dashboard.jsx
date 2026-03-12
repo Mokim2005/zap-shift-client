@@ -13,11 +13,9 @@ const Dashboard = () => {
     <div className="drawer lg:drawer-open max-w-7xl mx-auto">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content relative overflow-hidden">
-        {/* Premium Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-indigo-950 dark:to-purple-950"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.2),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.2),transparent_50%)]"></div>
-        
+        {/* White Background */}
+        <div className="absolute inset-0 bg-white dark:bg-gray-900"></div>
+
         {/* Content */}
         <div className="relative z-10">
           {/* Navbar */}
@@ -64,9 +62,9 @@ const Dashboard = () => {
           <ul className="menu w-full grow p-4 space-y-1">
             {/* Logo */}
             <li className="mb-4">
-          <Link to="/" className="p-0 hover:bg-transparent">
-              <Logo />
-          </Link>
+              <Link to="/" className="p-0 hover:bg-transparent">
+                <Logo />
+              </Link>
             </li>
 
             {/* Dashboard Home */}
@@ -96,7 +94,9 @@ const Dashboard = () => {
                   <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
                   <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 </svg>
-                <span className="is-drawer-close:hidden font-medium">Dashboard</span>
+                <span className="is-drawer-close:hidden font-medium">
+                  Dashboard
+                </span>
               </NavLink>
             </li>
 
@@ -114,7 +114,9 @@ const Dashboard = () => {
                 to="/dashboard/my-parcels"
               >
                 <CiDeliveryTruck className="size-5" />
-                <span className="is-drawer-close:hidden font-medium">My Parcels</span>
+                <span className="is-drawer-close:hidden font-medium">
+                  My Parcels
+                </span>
               </NavLink>
             </li>
             <li>
@@ -130,7 +132,9 @@ const Dashboard = () => {
                 to="/dashboard/my-profile"
               >
                 <CiUser className="size-5" />
-                <span className="is-drawer-close:hidden font-medium">My Profile</span>
+                <span className="is-drawer-close:hidden font-medium">
+                  My Profile
+                </span>
               </NavLink>
             </li>
 
@@ -148,7 +152,9 @@ const Dashboard = () => {
                 to="/dashboard/payment-history"
               >
                 <FaRegCreditCard className="size-5" />
-                <span className="is-drawer-close:hidden font-medium">Payment History</span>
+                <span className="is-drawer-close:hidden font-medium">
+                  Payment History
+                </span>
               </NavLink>
             </li>
 
@@ -285,7 +291,9 @@ const Dashboard = () => {
                   <circle cx="17" cy="17" r="3"></circle>
                   <circle cx="7" cy="7" r="3"></circle>
                 </svg>
-                <span className="is-drawer-close:hidden font-medium">Settings</span>
+                <span className="is-drawer-close:hidden font-medium">
+                  Settings
+                </span>
               </button>
             </li>
           </ul>

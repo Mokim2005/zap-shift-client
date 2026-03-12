@@ -5,8 +5,7 @@ import { Link } from "react-router";
 
 const PaymentCancled = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-red-100 via-pink-100 to-purple-100 dark:from-gray-900 dark:via-gray-950 dark:to-black">
-
+    <div className="min-h-screen flex items-center justify-center px-4 bg-white dark:bg-gray-900">
       {/* Glass Card */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -14,7 +13,6 @@ const PaymentCancled = () => {
         transition={{ duration: 0.6 }}
         className="backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 border border-white/40 dark:border-gray-700 shadow-2xl rounded-3xl p-10 max-w-lg w-full text-center space-y-6"
       >
-
         {/* Cancel Icon */}
         <motion.div
           initial={{ scale: 0 }}
@@ -38,7 +36,6 @@ const PaymentCancled = () => {
 
         {/* Buttons */}
         <div className="flex flex-col gap-3">
-
           <Link to="/dashboard/my-parcels">
             <button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-3 rounded-xl font-semibold shadow-lg transition">
               Back to My Parcels
@@ -50,9 +47,7 @@ const PaymentCancled = () => {
               Go Home
             </button>
           </Link>
-
         </div>
-
       </motion.div>
     </div>
   );
