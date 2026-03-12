@@ -24,6 +24,7 @@ import CompletedDeliveries from "../Pages/Dashbord/CompletedDeliveries";
 import ParcelTrack from "../Pages/ParcelTrack/ParcelTrack";
 import DashbordHome from "../Pages/Dashbord/DashboardHome/DashbordHome";
 import Forbidden from "./Forbidden";
+import MyProfile from "../Pages/MyProfile/MyProfile";
 
 const router = createBrowserRouter([
   {
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
       {
         path: "my-parcels",
         Component: MyParcels,
+      },
+      {
+        path: "my-profile",
+        Component: MyProfile,
       },
       {
         path: "payment-history",

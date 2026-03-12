@@ -118,6 +118,22 @@ const Dashboard = () => {
                 <span className="is-drawer-close:hidden font-medium">My Parcels</span>
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
+                    isActive
+                      ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                  }`
+                }
+                data-tip="My Parofile"
+                to="/dashboard/my-profile"
+              >
+                <CiDeliveryTruck className="size-5" />
+                <span className="is-drawer-close:hidden font-medium">My Profile</span>
+              </NavLink>
+            </li>
 
             {/* Payment History */}
             <li>
