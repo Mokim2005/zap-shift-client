@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import UseAuth from '../../Hooks/UseAuth';
-import UseAxiosSecure from '../../Hooks/UseAxiosSecure';
-import GlassCard from '../../Components/GlassCard';
-import GlassLoading from '../../Components/GlassLoading';
+import React, { useState, useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
+import UseAuth from "../../Hooks/UseAuth";
+import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import GlassCard from "../../Components/GlassCard";
+import GlassLoading from "../../Components/GlassLoading";
 
 const MyProfile = () => {
   const { user } = UseAuth();
@@ -13,14 +13,14 @@ const MyProfile = () => {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const fetchProfileData = useCallback(async () => {
     try {
       setLoading(true);
-      setError('');
-      
+      setError("");
+
       try {
         const response = await axiosSecure.get(`/user/${user.email}`);
         setProfileData(response.data);
@@ -30,41 +30,43 @@ const MyProfile = () => {
         if (err.response?.status === 404) {
           const defaultProfile = {
             email: user.email,
-            displayName: user.displayName || 'User',
-            photoURL: user.photoURL || '',
-            phone: '',
-            address: '',
-            city: '',
-            zipCode: '',
-            role: 'user',
-            createdAt: new Date().toISOString()
+            displayName: user.displayName || "User",
+            photoURL: user.photoURL || "",
+            phone: "",
+            address: "",
+            city: "",
+            zipCode: "",
+            role: "user",
+            createdAt: new Date().toISOString(),
           };
           setProfileData(defaultProfile);
           setFormData(defaultProfile);
-          console.log('User profile not found in database. Using Firebase user data.');
+          console.log(
+            "User profile not found in database. Using Firebase user data.",
+          );
         } else {
           throw err;
         }
       }
     } catch (err) {
-      console.error('Error fetching profile:', err);
-      setError('Failed to load profile data. Please try again.');
-      
+      console.error("Error fetching profile:", err);
+      setError("Failed to load profile data. Please try again.");
+
       // Fallback: Use basic Firebase user data
       if (user) {
         const fallbackProfile = {
           email: user.email,
-          displayName: user.displayName || 'User',
-          photoURL: user.photoURL || '',
-          phone: '',
-          address: '',
-          city: '',
-          zipCode: '',
-          role: 'user'
+          displayName: user.displayName || "User",
+          photoURL: user.photoURL || "",
+          phone: "",
+          address: "",
+          city: "",
+          zipCode: "",
+          role: "user",
         };
         setProfileData(fallbackProfile);
         setFormData(fallbackProfile);
-        setError('');
+        setError("");
       }
     } finally {
       setLoading(false);
@@ -79,26 +81,26 @@ const MyProfile = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleUpdateProfile = async () => {
     try {
       setUpdating(true);
-      setError('');
-      
+      setError("");
+
       const updateData = {
         email: user.email,
         displayName: formData.displayName || user.displayName,
-        phone: formData.phone || '',
-        address: formData.address || '',
-        city: formData.city || '',
-        zipCode: formData.zipCode || '',
-        photoURL: formData.photoURL || user.photoURL || '',
-        role: profileData?.role || 'user'
+        phone: formData.phone || "",
+        address: formData.address || "",
+        city: formData.city || "",
+        zipCode: formData.zipCode || "",
+        photoURL: formData.photoURL || user.photoURL || "",
+        role: profileData?.role || "user",
       };
 
       let response;
@@ -108,7 +110,7 @@ const MyProfile = () => {
       } catch (err) {
         // If profile doesn't exist (404), create it instead
         if (err.response?.status === 404) {
-          response = await axiosSecure.post('/user', updateData);
+          response = await axiosSecure.post("/user", updateData);
         } else {
           throw err;
         }
@@ -116,13 +118,16 @@ const MyProfile = () => {
 
       setProfileData(response.data);
       setFormData(response.data);
-      setSuccess('Profile updated successfully!');
+      setSuccess("Profile updated successfully!");
       setIsEditing(false);
-      
-      setTimeout(() => setSuccess(''), 3000);
+
+      setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
-      console.error('Error updating profile:', err);
-      setError(err.response?.data?.message || 'Failed to update profile. Please try again.');
+      console.error("Error updating profile:", err);
+      setError(
+        err.response?.data?.message ||
+          "Failed to update profile. Please try again.",
+      );
     } finally {
       setUpdating(false);
     }
@@ -131,43 +136,47 @@ const MyProfile = () => {
   const handleCancel = () => {
     setFormData(profileData);
     setIsEditing(false);
-    setError('');
+    setError("");
   };
 
   // Helper function to get role badge info
   const getRoleBadgeInfo = (role) => {
     const roleStyles = {
       admin: {
-        icon: '👑',
-        label: 'Admin',
-        bgColor: 'from-purple-500/20 to-pink-500/20',
-        textColor: 'text-purple-700 dark:text-purple-300',
-        borderColor: 'border-purple-300/50 dark:border-purple-500/50'
+        icon: "👑",
+        label: "Admin",
+        bgColor: "from-purple-500/20 to-pink-500/20",
+        textColor: "text-purple-700 dark:text-purple-300",
+        borderColor: "border-purple-300/50 dark:border-purple-500/50",
       },
       rider: {
-        icon: '🏍️',
-        label: 'Rider',
-        bgColor: 'from-orange-500/20 to-red-500/20',
-        textColor: 'text-orange-700 dark:text-orange-300',
-        borderColor: 'border-orange-300/50 dark:border-orange-500/50'
+        icon: "🏍️",
+        label: "Rider",
+        bgColor: "from-orange-500/20 to-red-500/20",
+        textColor: "text-orange-700 dark:text-orange-300",
+        borderColor: "border-orange-300/50 dark:border-orange-500/50",
       },
       user: {
-        icon: '👤',
-        label: 'User',
-        bgColor: 'from-blue-500/20 to-cyan-500/20',
-        textColor: 'text-blue-700 dark:text-blue-300',
-        borderColor: 'border-blue-300/50 dark:border-blue-500/50'
-      }
+        icon: "👤",
+        label: "User",
+        bgColor: "from-blue-500/20 to-cyan-500/20",
+        textColor: "text-blue-700 dark:text-blue-300",
+        borderColor: "border-blue-300/50 dark:border-blue-500/50",
+      },
     };
     return roleStyles[role?.toLowerCase()] || roleStyles.user;
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-fixed bg-center bg-cover relative overflow-hidden" style={{
-        backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTutUq-QRLeof9NcnMd4ntzLPVhfEMUtWudFA&s")',
-        backgroundAttachment: 'fixed'
-      }}>
+      <div
+        className="min-h-screen flex items-center justify-center bg-fixed bg-center bg-cover relative overflow-hidden"
+        style={{
+          backgroundImage:
+            'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTutUq-QRLeof9NcnMd4ntzLPVhfEMUtWudFA&s")',
+          backgroundAttachment: "fixed",
+        }}
+      >
         <div className="absolute inset-0 bg-linear-to-br from-black/40 via-black/30 to-black/40"></div>
         <div className="relative z-10">
           <GlassLoading />
@@ -177,10 +186,14 @@ const MyProfile = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-fixed bg-center bg-cover relative overflow-hidden" style={{
-      backgroundImage: 'url("https://images.unsplash.com/photo-1618005182384-a83a8e7b9b47?w=1920&q=80")',
-      backgroundAttachment: 'fixed'
-    }}>
+    <div
+      className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-fixed bg-center bg-cover relative overflow-hidden"
+      style={{
+        backgroundImage:
+          'url("https://images.unsplash.com/photo-1618005182384-a83a8e7b9b47?w=1920&q=80")',
+        backgroundAttachment: "fixed",
+      }}
+    >
       {/* Overlay */}
       <div className="absolute inset-0 bg-linear-to-br from-black/35 via-purple-900/20 to-black/35"></div>
       <div className="max-w-5xl mx-auto relative z-10">
@@ -204,7 +217,7 @@ const MyProfile = () => {
         {/* Success Message */}
         {success && (
           <motion.div
-            initial={{ opacity: 0, y: -10, x: '-50%' }}
+            initial={{ opacity: 0, y: -10, x: "-50%" }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             className="mb-6 fixed top-20 left-1/2 transform -translate-x-1/2 z-50"
@@ -251,7 +264,8 @@ const MyProfile = () => {
                         />
                       ) : (
                         <div className="w-full h-full rounded-2xl bg-linear-to-br from-blue-400 via-purple-400 to-pink-400 flex items-center justify-center text-white text-5xl font-bold border-4 border-white/60 shadow-2xl dark:border-white/30">
-                          {profileData?.displayName?.charAt(0)?.toUpperCase() || 'U'}
+                          {profileData?.displayName?.charAt(0)?.toUpperCase() ||
+                            "U"}
                         </div>
                       )}
                       <div className="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
@@ -261,7 +275,7 @@ const MyProfile = () => {
                   {/* User Info */}
                   <div className="grow pt-4">
                     <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
-                      {profileData?.displayName || 'User Profile'}
+                      {profileData?.displayName || "User Profile"}
                     </h2>
                     <p className="text-gray-600 dark:text-gray-400 mb-2 text-lg">
                       {profileData?.email}
@@ -270,7 +284,9 @@ const MyProfile = () => {
                       {(() => {
                         const roleInfo = getRoleBadgeInfo(profileData?.role);
                         return (
-                          <span className={`px-5 py-2 bg-linear-to-r ${roleInfo.bgColor} ${roleInfo.textColor} rounded-full text-sm font-bold border ${roleInfo.borderColor} backdrop-blur-md shadow-md`}>
+                          <span
+                            className={`px-5 py-2 bg-linear-to-r ${roleInfo.bgColor} ${roleInfo.textColor} rounded-full text-sm font-bold border ${roleInfo.borderColor} backdrop-blur-md shadow-md`}
+                          >
                             {roleInfo.icon} {roleInfo.label.toUpperCase()}
                           </span>
                         );
@@ -308,7 +324,7 @@ const MyProfile = () => {
                         Email Address
                       </p>
                       <p className="text-lg font-bold text-gray-900 dark:text-white break-all">
-                        {profileData?.email || 'Not provided'}
+                        {profileData?.email || "Not provided"}
                       </p>
                     </div>
                   </div>
@@ -325,7 +341,7 @@ const MyProfile = () => {
                         Phone Number
                       </p>
                       <p className="text-lg font-bold text-gray-900 dark:text-white">
-                        {profileData?.phone || 'Not provided'}
+                        {profileData?.phone || "Not provided"}
                       </p>
                     </div>
                   </div>
@@ -342,7 +358,7 @@ const MyProfile = () => {
                         Address
                       </p>
                       <p className="text-lg font-bold text-gray-900 dark:text-white">
-                        {profileData?.address || 'Not provided'}
+                        {profileData?.address || "Not provided"}
                       </p>
                     </div>
                   </div>
@@ -359,7 +375,7 @@ const MyProfile = () => {
                         City
                       </p>
                       <p className="text-lg font-bold text-gray-900 dark:text-white">
-                        {profileData?.city || 'Not provided'}
+                        {profileData?.city || "Not provided"}
                       </p>
                     </div>
                   </div>
@@ -376,7 +392,7 @@ const MyProfile = () => {
                         Zip Code
                       </p>
                       <p className="text-lg font-bold text-gray-900 dark:text-white">
-                        {profileData?.zipCode || 'Not provided'}
+                        {profileData?.zipCode || "Not provided"}
                       </p>
                     </div>
                   </div>
@@ -402,7 +418,7 @@ const MyProfile = () => {
                   <input
                     type="text"
                     name="displayName"
-                    value={formData.displayName || ''}
+                    value={formData.displayName || ""}
                     onChange={handleInputChange}
                     className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
                     placeholder="Enter your full name"
@@ -416,7 +432,7 @@ const MyProfile = () => {
                   </label>
                   <input
                     type="email"
-                    value={profileData?.email || ''}
+                    value={profileData?.email || ""}
                     disabled
                     className="w-full px-5 py-3 bg-gray-100/50 dark:bg-gray-800/20 border-2 border-gray-300/30 rounded-xl text-gray-600 dark:text-gray-500 cursor-not-allowed opacity-60 font-semibold"
                   />
@@ -430,7 +446,7 @@ const MyProfile = () => {
                   <input
                     type="tel"
                     name="phone"
-                    value={formData.phone || ''}
+                    value={formData.phone || ""}
                     onChange={handleInputChange}
                     className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
                     placeholder="Enter your phone number"
@@ -445,7 +461,7 @@ const MyProfile = () => {
                   <input
                     type="text"
                     name="city"
-                    value={formData.city || ''}
+                    value={formData.city || ""}
                     onChange={handleInputChange}
                     className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
                     placeholder="Enter your city"
@@ -460,7 +476,7 @@ const MyProfile = () => {
                   <input
                     type="text"
                     name="address"
-                    value={formData.address || ''}
+                    value={formData.address || ""}
                     onChange={handleInputChange}
                     className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
                     placeholder="Enter your address"
@@ -475,7 +491,7 @@ const MyProfile = () => {
                   <input
                     type="text"
                     name="zipCode"
-                    value={formData.zipCode || ''}
+                    value={formData.zipCode || ""}
                     onChange={handleInputChange}
                     className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
                     placeholder="Enter your zip code"
@@ -490,7 +506,7 @@ const MyProfile = () => {
                   <input
                     type="url"
                     name="photoURL"
-                    value={formData.photoURL || ''}
+                    value={formData.photoURL || ""}
                     onChange={handleInputChange}
                     className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
                     placeholder="Enter photo URL"
@@ -500,13 +516,15 @@ const MyProfile = () => {
                 {/* Preview */}
                 {formData.photoURL && (
                   <div className="md:col-span-2">
-                    <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Preview:</p>
+                    <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                      Preview:
+                    </p>
                     <img
                       src={formData.photoURL}
                       alt="Preview"
                       className="w-32 h-32 rounded-xl object-cover border-2 border-white/50"
                       onError={(e) => {
-                        e.target.style.display = 'none';
+                        e.target.style.display = "none";
                       }}
                     />
                   </div>
@@ -526,9 +544,7 @@ const MyProfile = () => {
                       Saving...
                     </>
                   ) : (
-                    <>
-                      ✓ Save Changes
-                    </>
+                    <>✓ Save Changes</>
                   )}
                 </button>
                 <button

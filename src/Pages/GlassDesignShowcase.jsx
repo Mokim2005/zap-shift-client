@@ -13,7 +13,7 @@ const GlassDesignShowcase = () => {
       {/* Hero Section */}
       <GlassCard className="p-12 text-center">
         <h1 className="text-5xl font-bold text-gray-800 mb-4">
-          Zap Shift Delivery
+          SwiftParcel Delivery
         </h1>
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
           Fast, reliable, and secure parcel delivery service with real-time tracking
@@ -65,7 +65,7 @@ const GlassDesignShowcase = () => {
           Ready to ship with us?
         </h2>
         <p className="text-gray-600 mb-8 max-w-xl mx-auto">
-          Join thousands of satisfied customers who trust Zap Shift for their delivery needs
+          Join thousands of satisfied customers who trust SwiftParcel for their delivery needs
         </p>
         <GlassButton variant="primary" size="lg">
           Start Shipping Now

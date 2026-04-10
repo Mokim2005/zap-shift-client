@@ -94,7 +94,7 @@ const Register = () => {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold bg-linear-to-r from-blue-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent mb-2">
-              Join Zap Shift
+              Join SwiftParcel
             </h1>
             <p className="text-gray-600">Create an account to get started</p>
           </div>

@@ -73,7 +73,7 @@ const Forbidden = () => {
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Need help?{" "}
               <a
-                href="mailto:support@zapshift.com"
+                href="mailto:support@swiftparcel.com"
                 className="text-blue-600 hover:underline"
               >
                 Contact Support
