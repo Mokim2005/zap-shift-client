@@ -145,23 +145,23 @@ const MyProfile = () => {
       admin: {
         icon: "👑",
         label: "Admin",
-        bgColor: "from-purple-500/20 to-pink-500/20",
-        textColor: "text-purple-700 dark:text-purple-300",
-        borderColor: "border-purple-300/50 dark:border-purple-500/50",
+        bgColor: "bg-purple-500/30",
+        textColor: "text-purple-200",
+        borderColor: "border-purple-500/50",
       },
       rider: {
         icon: "🏍️",
         label: "Rider",
-        bgColor: "from-orange-500/20 to-red-500/20",
-        textColor: "text-orange-700 dark:text-orange-300",
-        borderColor: "border-orange-300/50 dark:border-orange-500/50",
+        bgColor: "bg-orange-500/30",
+        textColor: "text-orange-200",
+        borderColor: "border-orange-500/50",
       },
       user: {
         icon: "👤",
         label: "User",
-        bgColor: "from-blue-500/20 to-cyan-500/20",
-        textColor: "text-blue-700 dark:text-blue-300",
-        borderColor: "border-blue-300/50 dark:border-blue-500/50",
+        bgColor: "bg-blue-500/30",
+        textColor: "text-blue-200",
+        borderColor: "border-blue-500/50",
       },
     };
     return roleStyles[role?.toLowerCase()] || roleStyles.user;
@@ -268,14 +268,14 @@ const MyProfile = () => {
                         const roleInfo = getRoleBadgeInfo(profileData?.role);
                         return (
                           <span
-                            className={`px-5 py-2 bg-linear-to-r ${roleInfo.bgColor} ${roleInfo.textColor} rounded-full text-sm font-bold border ${roleInfo.borderColor} backdrop-blur-md shadow-md`}
+                            className={`px-5 py-2 ${roleInfo.bgColor} ${roleInfo.textColor} rounded-full text-sm font-bold border ${roleInfo.borderColor} backdrop-blur-3xl shadow-md`}
                           >
                             {roleInfo.icon} {roleInfo.label.toUpperCase()}
                           </span>
                         );
                       })()}
                       {profileData?.city && (
-                        <span className="px-5 py-2 bg-green-500/30 text-green-200 rounded-full text-sm font-semibold border border-green-500/50 backdrop-blur-md shadow-md">
+                        <span className="px-5 py-2 bg-green-500/30 text-green-200 rounded-full text-sm font-semibold border border-green-500/50 backdrop-blur-3xl shadow-md">
                           📍 {profileData.city}
                         </span>
                       )}

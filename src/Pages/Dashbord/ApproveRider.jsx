@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEye, FaUserCheck } from "react-icons/fa";
@@ -10,6 +10,7 @@ import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 
 const ApproveRider = () => {
   const axiosSecure = UseAxiosSecure();
+  const tableRef = useRef(null);
   const [selectedRider, setSelectedRider] = useState(null);
 
   // Fetch riders
@@ -94,116 +95,158 @@ const ApproveRider = () => {
   };
 
   return (
-    <div className="space-y-6">
-
+    <div className="space-y-6 px-2 sm:px-4 md:px-8 py-2 sm:py-3 md:py-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl font-bold text-white drop-shadow-lg">
             Approve Riders
           </h2>
-          <p className="text-gray-500 dark:text-gray-400">
-            Pending: {riders.filter(r => r.status !== "assigned").length}
+          <p className="text-gray-100/70 mt-1">
+            Pending: {riders.filter((r) => r.status !== "assigned").length}
           </p>
-        </div>
+        </motion.div>
 
-        <div className="p-4 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          className="p-4 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg drop-shadow-lg"
+        >
           <Bike className="w-6 h-6" />
-        </div>
+        </motion.div>
       </div>
 
       {/* Table */}
-      <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+      <motion.div
+        ref={tableRef}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="bg-white/15 backdrop-blur-3xl rounded-2xl border border-white/25 shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
+      >
         <div className="w-full overflow-x-auto">
-          <table className="w-full min-w-[800px]">
-            <thead className="bg-gray-50 dark:bg-gray-700/50 border-b">
+          <table className="w-full min-w-full table-auto">
+            <thead className="bg-white/10 border-b border-white/20">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase">#</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase">Name</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase">Email</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase">District</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase">Status</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase">Actions</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  #
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Name
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Email
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  District
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Status
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Actions
+                </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-
+            <tbody className="divide-y divide-white/20">
               {riders.map((rider, i) => (
                 <motion.tr
                   key={rider._id}
-                  whileHover={{ backgroundColor: "rgba(59,130,246,0.06)" }}
-                  transition={{ duration: 0.2 }}
-                  className="transition-all duration-300"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  whileHover={{
+                    backgroundColor: "rgba(59, 130, 246, 0.15)",
+                  }}
+                  className="transition-all duration-300 hover:bg-blue-500/10"
                 >
-                  <td className="px-6 py-4">{i + 1}</td>
-                  <td className="px-6 py-4">{rider.name}</td>
-                  <td className="px-6 py-4">{rider.email}</td>
-                  <td className="px-6 py-4">{rider.district}</td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-100">
+                    {i + 1}
+                  </td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-white font-medium">
+                    {rider.name}
+                  </td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-100">
+                    {rider.email}
+                  </td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-100">
+                    {rider.district}
+                  </td>
 
                   {/* Status Label */}
-                  <td className="px-6 py-4">
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
                     {rider.status === "assigned" ? (
-                      <span className="px-3 py-1 rounded-full text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                      <span className="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold bg-green-500/30 text-green-200 border border-green-500/50">
                         Assigned
                       </span>
                     ) : rider.status === "approve" ? (
-                      <span className="px-3 py-1 rounded-full text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
+                      <span className="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold bg-blue-500/30 text-blue-200 border border-blue-500/50">
                         Approved
                       </span>
                     ) : rider.status === "rejected" ? (
-                      <span className="px-3 py-1 rounded-full text-xs bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">
+                      <span className="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold bg-red-500/30 text-red-200 border border-red-500/50">
                         Rejected
                       </span>
                     ) : (
-                      <span className="px-3 py-1 rounded-full text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">
+                      <span className="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold bg-yellow-500/30 text-yellow-200 border border-yellow-500/50">
                         Pending
                       </span>
                     )}
                   </td>
 
                   {/* Actions */}
-                  <td className="px-6 py-4">
-                    <div className="flex gap-2 flex-wrap">
-                      <button
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
+                    <div className="flex gap-1 sm:gap-2 flex-wrap">
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
                         onClick={() => setSelectedRider(rider)}
-                        className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 hover:shadow-md transition-all duration-300"
+                        className="p-2 rounded-lg bg-blue-500/30 border border-blue-500/50 text-blue-200 hover:bg-blue-500/50 hover:shadow-md transition-all duration-300"
                       >
-                        <FaEye />
-                      </button>
+                        <FaEye className="w-3 h-3 sm:w-4 sm:h-4" />
+                      </motion.button>
 
                       {rider.status !== "assigned" && (
                         <>
-                          <button
-                            onClick={() => confirmUpdateStatus(rider, "approve")}
-                            className="p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 hover:shadow-md transition-all duration-300"
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            onClick={() =>
+                              confirmUpdateStatus(rider, "approve")
+                            }
+                            className="p-2 rounded-lg bg-green-500/30 border border-green-500/50 text-green-200 hover:bg-green-500/50 hover:shadow-md transition-all duration-300"
                           >
-                            <FaUserCheck />
-                          </button>
+                            <FaUserCheck className="w-3 h-3 sm:w-4 sm:h-4" />
+                          </motion.button>
 
-                          <button
-                            onClick={() => confirmUpdateStatus(rider, "rejected")}
-                            className="p-2 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-200 hover:shadow-md transition-all duration-300"
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            onClick={() =>
+                              confirmUpdateStatus(rider, "rejected")
+                            }
+                            className="p-2 rounded-lg bg-orange-500/30 border border-orange-500/50 text-orange-200 hover:bg-orange-500/50 hover:shadow-md transition-all duration-300"
                           >
-                            <IoPersonRemoveSharp />
-                          </button>
+                            <IoPersonRemoveSharp className="w-3 h-3 sm:w-4 sm:h-4" />
+                          </motion.button>
 
-                          <button
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
                             onClick={() => confirmDelete(rider._id)}
-                            className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 hover:shadow-md transition-all duration-300"
+                            className="p-2 rounded-lg bg-red-500/30 border border-red-500/50 text-red-200 hover:bg-red-500/50 hover:shadow-md transition-all duration-300"
                           >
-                            <FaTrashCan />
-                          </button>
+                            <FaTrashCan className="w-3 h-3 sm:w-4 sm:h-4" />
+                          </motion.button>
                         </>
                       )}
                     </div>
                   </td>
                 </motion.tr>
               ))}
-
             </tbody>
           </table>
         </div>
-      </div>
+      </motion.div>
 
       {/* Rider Modal */}
       <AnimatePresence>
@@ -212,37 +255,65 @@ const ApproveRider = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
+            className="fixed inset-0 bg-black/50 backdrop-blur-md flex justify-center items-center z-50"
           >
             <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              transition={{ duration: 0.2 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-96 shadow-2xl"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white/15 backdrop-blur-3xl border border-white/25 rounded-2xl p-6 w-96 shadow-2xl hover:shadow-3xl transition-all duration-300"
             >
-              <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+              <h3 className="text-xl font-bold mb-4 text-white drop-shadow-lg">
                 Rider Details
               </h3>
 
-              <div className="space-y-2 text-gray-700 dark:text-gray-300">
-                <p><strong>Name:</strong> {selectedRider.name}</p>
-                <p><strong>Email:</strong> {selectedRider.email}</p>
-                <p><strong>District:</strong> {selectedRider.district}</p>
-                <p><strong>Status:</strong> {selectedRider.status}</p>
+              <div className="space-y-3 text-gray-100">
+                <div className="p-3 rounded-lg bg-white/10 border border-white/20">
+                  <p className="text-xs text-gray-300 uppercase tracking-wide">
+                    Name
+                  </p>
+                  <p className="text-lg font-semibold text-white">
+                    {selectedRider.name}
+                  </p>
+                </div>
+                <div className="p-3 rounded-lg bg-white/10 border border-white/20">
+                  <p className="text-xs text-gray-300 uppercase tracking-wide">
+                    Email
+                  </p>
+                  <p className="text-sm text-gray-100 break-all">
+                    {selectedRider.email}
+                  </p>
+                </div>
+                <div className="p-3 rounded-lg bg-white/10 border border-white/20">
+                  <p className="text-xs text-gray-300 uppercase tracking-wide">
+                    District
+                  </p>
+                  <p className="text-lg font-semibold text-white">
+                    {selectedRider.district}
+                  </p>
+                </div>
+                <div className="p-3 rounded-lg bg-white/10 border border-white/20">
+                  <p className="text-xs text-gray-300 uppercase tracking-wide">
+                    Status
+                  </p>
+                  <p className="text-lg font-semibold text-blue-200 capitalize">
+                    {selectedRider.status}
+                  </p>
+                </div>
               </div>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
                 onClick={() => setSelectedRider(null)}
-                className="mt-6 w-full bg-gray-200 dark:bg-gray-700 py-2 rounded-lg hover:bg-gray-300 transition-all"
+                className="mt-6 w-full bg-gradient-to-r from-blue-500/50 to-cyan-500/50 border border-blue-500/50 text-white py-2 rounded-lg hover:from-blue-500/70 hover:to-cyan-500/70 font-semibold transition-all duration-300"
               >
                 Close
-              </button>
+              </motion.button>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 };
