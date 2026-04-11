@@ -7,20 +7,11 @@ const RiderDashboardHome = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-6 min-h-screen relative"
-      style={{
-        backgroundImage: `url('https://t3.ftcdn.net/jpg/02/61/05/22/360_F_261052228_JWWd2a1m0bahg7IKqigyS6k2059oSqVc.jpg')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
+      className="space-y-6 relative"
     >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/30 to-black/25 backdrop-blur-sm"></div>
-
-      <div className="relative z-10 px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10">
         {/* Header */}
-        <div className="pt-8">
+        <div>
           <h1 className="text-3xl font-bold text-white drop-shadow-lg mb-2">
             Rider Dashboard
           </h1>

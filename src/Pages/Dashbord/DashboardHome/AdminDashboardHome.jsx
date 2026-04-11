@@ -65,17 +65,8 @@ const AdminDashboardHome = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-6 min-h-screen relative"
-      style={{
-        backgroundImage: `url('https://t3.ftcdn.net/jpg/02/61/05/22/360_F_261052228_JWWd2a1m0bahg7IKqigyS6k2059oSqVc.jpg')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
+      className="space-y-6 relative"
     >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/30 to-black/25 backdrop-blur-sm"></div>
-
       <div className="relative z-10">
         {/* Header */}
         <div>
@@ -133,7 +124,7 @@ const AdminDashboardHome = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="bg-white/15 dark:bg-gray-900/20 backdrop-blur-3xl rounded-2xl border border-white/25 dark:border-white/15 p-6 mx-4 sm:mx-6 lg:mx-8 mb-8"
+          className="bg-white/15 dark:bg-gray-900/20 backdrop-blur-3xl rounded-2xl border border-white/25 dark:border-white/15 p-6"
         >
           <h3 className="text-xl font-semibold text-white mb-6">
             Delivery Status Distribution
