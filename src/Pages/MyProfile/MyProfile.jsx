@@ -169,15 +169,7 @@ const MyProfile = () => {
 
   if (loading) {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center bg-fixed bg-center bg-cover relative overflow-hidden"
-        style={{
-          backgroundImage:
-            'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTutUq-QRLeof9NcnMd4ntzLPVhfEMUtWudFA&s")',
-          backgroundAttachment: "fixed",
-        }}
-      >
-        <div className="absolute inset-0 bg-linear-to-br from-black/40 via-black/30 to-black/40"></div>
+      <div className="min-h-screen flex items-center justify-center relative">
         <div className="relative z-10">
           <GlassLoading />
         </div>
@@ -186,16 +178,7 @@ const MyProfile = () => {
   }
 
   return (
-    <div
-      className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-fixed bg-center bg-cover relative overflow-hidden"
-      style={{
-        backgroundImage:
-          'url("https://images.unsplash.com/photo-1618005182384-a83a8e7b9b47?w=1920&q=80")',
-        backgroundAttachment: "fixed",
-      }}
-    >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-linear-to-br from-black/35 via-purple-900/20 to-black/35"></div>
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Header Section */}
         <motion.div
@@ -205,10 +188,10 @@ const MyProfile = () => {
           className="mb-8"
         >
           <div className="text-center">
-            <h1 className="text-5xl font-bold bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+            <h1 className="text-5xl font-bold text-white drop-shadow-lg mb-3">
               My Profile
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
+            <p className="text-gray-100 drop-shadow-md text-lg">
               Manage your account information and personal details
             </p>
           </div>
@@ -222,7 +205,7 @@ const MyProfile = () => {
             exit={{ opacity: 0 }}
             className="mb-6 fixed top-20 left-1/2 transform -translate-x-1/2 z-50"
           >
-            <div className="px-6 py-4 bg-linear-to-r from-green-400 to-emerald-500 text-white rounded-xl shadow-2xl flex items-center gap-3">
+            <div className="px-6 py-4 bg-green-500/30 border border-green-500/50 text-green-200 rounded-xl shadow-2xl flex items-center gap-3 backdrop-blur-3xl">
               <span className="text-2xl">✓</span>
               <span className="font-semibold">{success}</span>
             </div>
@@ -234,7 +217,7 @@ const MyProfile = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 p-4 bg-red-500/10 border border-red-300 dark:border-red-700 rounded-xl text-red-700 dark:text-red-400 font-semibold"
+            className="mb-6 p-4 bg-red-500/30 border border-red-500/50 rounded-xl text-red-200 font-semibold backdrop-blur-3xl"
           >
             ⚠️ {error}
           </motion.div>
@@ -244,9 +227,9 @@ const MyProfile = () => {
           // Display Mode
           <div className="space-y-6">
             {/* Profile Header Card */}
-            <GlassCard className="p-0 overflow-hidden bg-white/50 dark:bg-gray-900/50 backdrop-blur-2xl border-2 border-white/40 dark:border-white/20">
+            <GlassCard className="p-0 overflow-hidden bg-white/15 backdrop-blur-3xl border-2 border-white/25">
               {/* Background Gradient */}
-              <div className="h-32 bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 relative shadow-lg">
+              <div className="h-32 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 relative shadow-lg">
                 <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent"></div>
               </div>
 
@@ -274,10 +257,10 @@ const MyProfile = () => {
 
                   {/* User Info */}
                   <div className="grow pt-4">
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+                    <h2 className="text-3xl font-bold text-white mb-1">
                       {profileData?.displayName || "User Profile"}
                     </h2>
-                    <p className="text-gray-600 dark:text-gray-400 mb-2 text-lg">
+                    <p className="text-gray-100 mb-2 text-lg">
                       {profileData?.email}
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -292,7 +275,7 @@ const MyProfile = () => {
                         );
                       })()}
                       {profileData?.city && (
-                        <span className="px-5 py-2 bg-linear-to-r from-green-500/20 to-emerald-500/20 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold border border-green-300/50 dark:border-green-500/50 backdrop-blur-md shadow-md">
+                        <span className="px-5 py-2 bg-green-500/30 text-green-200 rounded-full text-sm font-semibold border border-green-500/50 backdrop-blur-md shadow-md">
                           📍 {profileData.city}
                         </span>
                       )}
@@ -304,7 +287,7 @@ const MyProfile = () => {
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setIsEditing(true)}
-                    className="px-6 py-3 bg-linear-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 text-center flex items-center justify-center gap-2 whitespace-nowrap"
+                    className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 text-center flex items-center justify-center gap-2 whitespace-nowrap"
                   >
                     ✏️ Edit Profile
                   </motion.button>
@@ -316,14 +299,14 @@ const MyProfile = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Email Card */}
               <div>
-                <GlassCard className="p-6 h-full bg-white/40 dark:bg-gray-900/40 backdrop-blur-2xl border-2 border-white/40 dark:border-white/20 shadow-xl hover:shadow-2xl">
+                <GlassCard className="p-6 h-full bg-white/15 backdrop-blur-3xl border-2 border-white/25 shadow-xl hover:shadow-2xl">
                   <div className="flex items-start gap-4">
                     <div className="text-3xl">✉️</div>
                     <div className="grow">
-                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
+                      <p className="text-sm font-semibold text-gray-200 uppercase tracking-wider mb-1">
                         Email Address
                       </p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white break-all">
+                      <p className="text-lg font-bold text-white break-all">
                         {profileData?.email || "Not provided"}
                       </p>
                     </div>
@@ -333,14 +316,14 @@ const MyProfile = () => {
 
               {/* Phone Card */}
               <div>
-                <GlassCard className="p-6 h-full bg-white/40 dark:bg-gray-900/40 backdrop-blur-2xl border-2 border-white/40 dark:border-white/20 shadow-xl hover:shadow-2xl">
+                <GlassCard className="p-6 h-full bg-white/15 backdrop-blur-3xl border-2 border-white/25 shadow-xl hover:shadow-2xl">
                   <div className="flex items-start gap-4">
                     <div className="text-3xl">📱</div>
                     <div className="grow">
-                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
+                      <p className="text-sm font-semibold text-gray-200 uppercase tracking-wider mb-1">
                         Phone Number
                       </p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white">
+                      <p className="text-lg font-bold text-white">
                         {profileData?.phone || "Not provided"}
                       </p>
                     </div>
@@ -350,14 +333,14 @@ const MyProfile = () => {
 
               {/* Address Card */}
               <div>
-                <GlassCard className="p-6 md:col-span-2 lg:col-span-1 bg-white/40 dark:bg-gray-900/40 backdrop-blur-2xl border-2 border-white/40 dark:border-white/20 shadow-xl hover:shadow-2xl">
+                <GlassCard className="p-6 md:col-span-2 lg:col-span-1 bg-white/15 backdrop-blur-3xl border-2 border-white/25 shadow-xl hover:shadow-2xl">
                   <div className="flex items-start gap-4">
                     <div className="text-3xl">🏠</div>
                     <div className="grow">
-                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
+                      <p className="text-sm font-semibold text-gray-200 uppercase tracking-wider mb-1">
                         Address
                       </p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white">
+                      <p className="text-lg font-bold text-white">
                         {profileData?.address || "Not provided"}
                       </p>
                     </div>
@@ -367,14 +350,14 @@ const MyProfile = () => {
 
               {/* City Card */}
               <div>
-                <GlassCard className="p-6 md:col-span-2 lg:col-span-1 bg-white/40 dark:bg-gray-900/40 backdrop-blur-2xl border-2 border-white/40 dark:border-white/20 shadow-xl hover:shadow-2xl">
+                <GlassCard className="p-6 md:col-span-2 lg:col-span-1 bg-white/15 backdrop-blur-3xl border-2 border-white/25 shadow-xl hover:shadow-2xl">
                   <div className="flex items-start gap-4">
                     <div className="text-3xl">🌆</div>
                     <div className="grow">
-                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
+                      <p className="text-sm font-semibold text-gray-200 uppercase tracking-wider mb-1">
                         City
                       </p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white">
+                      <p className="text-lg font-bold text-white">
                         {profileData?.city || "Not provided"}
                       </p>
                     </div>
@@ -384,14 +367,14 @@ const MyProfile = () => {
 
               {/* Zip Code Card */}
               <div>
-                <GlassCard className="p-6 md:col-span-2 lg:col-span-1 bg-white/40 dark:bg-gray-900/40 backdrop-blur-2xl border-2 border-white/40 dark:border-white/20 shadow-xl hover:shadow-2xl">
+                <GlassCard className="p-6 md:col-span-2 lg:col-span-1 bg-white/15 backdrop-blur-3xl border-2 border-white/25 shadow-xl hover:shadow-2xl">
                   <div className="flex items-start gap-4">
                     <div className="text-3xl">📮</div>
                     <div className="grow">
-                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
+                      <p className="text-sm font-semibold text-gray-200 uppercase tracking-wider mb-1">
                         Zip Code
                       </p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white">
+                      <p className="text-lg font-bold text-white">
                         {profileData?.zipCode || "Not provided"}
                       </p>
                     </div>
@@ -403,8 +386,8 @@ const MyProfile = () => {
         ) : (
           // Edit Mode
           <div>
-            <GlassCard className="p-8 bg-white/50 dark:bg-gray-900/50 backdrop-blur-2xl border-2 border-white/40 dark:border-white/20 shadow-2xl">
-              <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-3">
+            <GlassCard className="p-8 bg-white/15 backdrop-blur-3xl border-2 border-white/25 shadow-2xl\">
+              <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
                 <span className="text-4xl">✏️</span>
                 Edit Profile Information
               </h3>
@@ -412,7 +395,7 @@ const MyProfile = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Display Name */}
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-200 mb-3 uppercase tracking-wider">
                     Full Name
                   </label>
                   <input
@@ -420,27 +403,27 @@ const MyProfile = () => {
                     name="displayName"
                     value={formData.displayName || ""}
                     onChange={handleInputChange}
-                    className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
+                    className="w-full px-5 py-3 bg-white/20 border-2 border-white/30 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 text-white placeholder-white/50 transition-all font-semibold"
                     placeholder="Enter your full name"
                   />
                 </div>
 
                 {/* Email (Read-only) */}
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-200 mb-3 uppercase tracking-wider">
                     Email (Cannot be changed)
                   </label>
                   <input
                     type="email"
                     value={profileData?.email || ""}
                     disabled
-                    className="w-full px-5 py-3 bg-gray-100/50 dark:bg-gray-800/20 border-2 border-gray-300/30 rounded-xl text-gray-600 dark:text-gray-500 cursor-not-allowed opacity-60 font-semibold"
+                    className="w-full px-5 py-3 bg-white/10 border-2 border-white/20 rounded-xl text-gray-300 cursor-not-allowed opacity-60 font-semibold"
                   />
                 </div>
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-200 mb-3 uppercase tracking-wider">
                     Phone Number
                   </label>
                   <input
@@ -448,14 +431,14 @@ const MyProfile = () => {
                     name="phone"
                     value={formData.phone || ""}
                     onChange={handleInputChange}
-                    className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
+                    className="w-full px-5 py-3 bg-white/20 border-2 border-white/30 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 text-white placeholder-white/50 transition-all font-semibold"
                     placeholder="Enter your phone number"
                   />
                 </div>
 
                 {/* City */}
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-200 mb-3 uppercase tracking-wider">
                     City
                   </label>
                   <input
@@ -463,14 +446,14 @@ const MyProfile = () => {
                     name="city"
                     value={formData.city || ""}
                     onChange={handleInputChange}
-                    className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
+                    className="w-full px-5 py-3 bg-white/20 border-2 border-white/30 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 text-white placeholder-white/50 transition-all font-semibold"
                     placeholder="Enter your city"
                   />
                 </div>
 
                 {/* Address */}
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-200 mb-3 uppercase tracking-wider">
                     Address
                   </label>
                   <input
@@ -478,14 +461,14 @@ const MyProfile = () => {
                     name="address"
                     value={formData.address || ""}
                     onChange={handleInputChange}
-                    className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
+                    className="w-full px-5 py-3 bg-white/20 border-2 border-white/30 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 text-white placeholder-white/50 transition-all font-semibold"
                     placeholder="Enter your address"
                   />
                 </div>
 
                 {/* Zip Code */}
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-200 mb-3 uppercase tracking-wider">
                     Zip Code
                   </label>
                   <input
@@ -493,14 +476,14 @@ const MyProfile = () => {
                     name="zipCode"
                     value={formData.zipCode || ""}
                     onChange={handleInputChange}
-                    className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
+                    className="w-full px-5 py-3 bg-white/20 border-2 border-white/30 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 text-white placeholder-white/50 transition-all font-semibold"
                     placeholder="Enter your zip code"
                   />
                 </div>
 
                 {/* Photo URL */}
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-200 mb-3 uppercase tracking-wider">
                     Photo URL
                   </label>
                   <input
@@ -508,7 +491,7 @@ const MyProfile = () => {
                     name="photoURL"
                     value={formData.photoURL || ""}
                     onChange={handleInputChange}
-                    className="w-full px-5 py-3 bg-white/40 dark:bg-gray-800/40 border-2 border-white/50 dark:border-white/20 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 dark:text-white transition-all font-semibold"
+                    className="w-full px-5 py-3 bg-white/20 border-2 border-white/30 rounded-xl focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 text-white placeholder-white/50 transition-all font-semibold"
                     placeholder="Enter photo URL"
                   />
                 </div>
@@ -516,7 +499,7 @@ const MyProfile = () => {
                 {/* Preview */}
                 {formData.photoURL && (
                   <div className="md:col-span-2">
-                    <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    <p className="text-sm font-semibold text-gray-200 mb-3">
                       Preview:
                     </p>
                     <img
@@ -536,7 +519,7 @@ const MyProfile = () => {
                 <button
                   onClick={handleUpdateProfile}
                   disabled={updating}
-                  className="flex-1 px-6 py-4 bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
+                  className="flex-1 px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
                 >
                   {updating ? (
                     <>
@@ -550,7 +533,7 @@ const MyProfile = () => {
                 <button
                   onClick={handleCancel}
                   disabled={updating}
-                  className="flex-1 px-6 py-4 bg-linear-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
+                  className="flex-1 px-6 py-4 bg-red-500/50 hover:bg-red-600/50 border border-red-500/50 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
                 >
                   ✕ Cancel
                 </button>

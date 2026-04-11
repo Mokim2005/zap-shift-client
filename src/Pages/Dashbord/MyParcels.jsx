@@ -82,16 +82,7 @@ const MyParcels = () => {
   };
 
   return (
-    <div
-      className="min-h-screen space-y-6 p-4 sm:p-6 md:p-8 relative"
-      style={{
-        backgroundImage: `linear-gradient(to bottom right, rgba(15, 23, 42, 0.4), rgba(30, 41, 59, 0.35)), url('https://www.shutterstock.com/image-photo/happy-2540-year-old-indian-260nw-2641626587.jpg')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
+    <div className="min-h-screen space-y-6 p-4 sm:p-6 md:p-8 relative">
       {/* HEADER */}
       <div ref={headerRef} className="flex items-center justify-between">
         <div>
