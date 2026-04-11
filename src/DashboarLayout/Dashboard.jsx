@@ -10,20 +10,17 @@ const Dashboard = () => {
   const { role } = UseRole();
 
   return (
-    <div className="drawer lg:drawer-open max-w-7xl mx-auto">
+    <div className="drawer lg:drawer-open max-w-7xl mx-auto min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content relative overflow-hidden">
-        {/* White Background */}
-        <div className="absolute inset-0 bg-white dark:bg-gray-900"></div>
-
         {/* Content */}
         <div className="relative z-10">
           {/* Navbar */}
-          <nav className="navbar w-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 sticky top-0 z-30">
+          <nav className="navbar w-full bg-white/10 dark:bg-white/10 backdrop-blur-3xl border-b border-white/20 sticky top-0 z-30">
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
-              className="btn btn-square btn-ghost text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="btn btn-square btn-ghost text-gray-100 hover:bg-white/20"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +37,7 @@ const Dashboard = () => {
                 <path d="M14 10l2 2l-2 2"></path>
               </svg>
             </label>
-            <div className="px-4 text-xl font-semibold text-gray-900 dark:text-white">
+            <div className="px-4 text-xl font-semibold text-white drop-shadow">
               SwiftParcel Dashboard
             </div>
           </nav>
@@ -57,7 +54,7 @@ const Dashboard = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="flex min-h-full flex-col items-start bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border-r border-gray-200 dark:border-gray-700 is-drawer-close:w-14 is-drawer-open:w-64">
+        <div className="flex min-h-full flex-col items-start bg-white/10 backdrop-blur-3xl border-r border-white/20 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
           <ul className="menu w-full grow p-4 space-y-1">
             {/* Logo */}
@@ -75,8 +72,8 @@ const Dashboard = () => {
                 className={({ isActive }) =>
                   `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
                     isActive
-                      ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                      ? "bg-blue-500/20 border border-blue-400/50 text-blue-300"
+                      : "text-gray-300 hover:bg-white/10 border border-transparent"
                   }`
                 }
                 data-tip="Dashboard"
@@ -106,8 +103,8 @@ const Dashboard = () => {
                 className={({ isActive }) =>
                   `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
                     isActive
-                      ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                      ? "bg-blue-500/20 border border-blue-400/50 text-blue-300"
+                      : "text-gray-300 hover:bg-white/10 border border-transparent"
                   }`
                 }
                 data-tip="My Parcels"
@@ -124,11 +121,11 @@ const Dashboard = () => {
                 className={({ isActive }) =>
                   `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
                     isActive
-                      ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                      ? "bg-blue-500/20 border border-blue-400/50 text-blue-300"
+                      : "text-gray-300 hover:bg-white/10 border border-transparent"
                   }`
                 }
-                data-tip="My Parofile"
+                data-tip="My Profile"
                 to="/dashboard/my-profile"
               >
                 <CiUser className="size-5" />
@@ -144,8 +141,8 @@ const Dashboard = () => {
                 className={({ isActive }) =>
                   `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
                     isActive
-                      ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                      ? "bg-blue-500/20 border border-blue-400/50 text-blue-300"
+                      : "text-gray-300 hover:bg-white/10 border border-transparent"
                   }`
                 }
                 data-tip="Payment History"
@@ -162,7 +159,7 @@ const Dashboard = () => {
             {role === "rider" && (
               <>
                 <li className="pt-4 pb-2 is-drawer-close:hidden">
-                  <p className="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                     Rider
                   </p>
                 </li>
@@ -171,8 +168,8 @@ const Dashboard = () => {
                     className={({ isActive }) =>
                       `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
                         isActive
-                          ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                          ? "bg-blue-500/20 border border-blue-400/50 text-blue-300"
+                          : "text-gray-300 hover:bg-white/10 border border-transparent"
                       }`
                     }
                     data-tip="Assign Deliveries"
@@ -189,8 +186,8 @@ const Dashboard = () => {
                     className={({ isActive }) =>
                       `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
                         isActive
-                          ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                          ? "bg-blue-500/20 border border-blue-400/50 text-blue-300"
+                          : "text-gray-300 hover:bg-white/10 border border-transparent"
                       }`
                     }
                     data-tip="Completed Deliveries"
@@ -209,7 +206,7 @@ const Dashboard = () => {
             {role === "admin" && (
               <>
                 <li className="pt-4 pb-2 is-drawer-close:hidden">
-                  <p className="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                     Admin
                   </p>
                 </li>
@@ -218,8 +215,8 @@ const Dashboard = () => {
                     className={({ isActive }) =>
                       `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
                         isActive
-                          ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                          ? "bg-blue-500/20 border border-blue-400/50 text-blue-300"
+                          : "text-gray-300 hover:bg-white/10 border border-transparent"
                       }`
                     }
                     data-tip="Approve Rider"
@@ -236,8 +233,8 @@ const Dashboard = () => {
                     className={({ isActive }) =>
                       `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
                         isActive
-                          ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                          ? "bg-blue-500/20 border border-blue-400/50 text-blue-300"
+                          : "text-gray-300 hover:bg-white/10 border border-transparent"
                       }`
                     }
                     data-tip="Assign Riders"
@@ -254,8 +251,8 @@ const Dashboard = () => {
                     className={({ isActive }) =>
                       `is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl transition-all ${
                         isActive
-                          ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                          ? "bg-blue-500/20 border border-blue-400/50 text-blue-300"
+                          : "text-gray-300 hover:bg-white/10 border border-transparent"
                       }`
                     }
                     data-tip="Users Management"
@@ -273,7 +270,7 @@ const Dashboard = () => {
             {/* Settings */}
             <li className="mt-auto">
               <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-all"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-xl text-gray-300 hover:bg-white/10 transition-all border border-transparent"
                 data-tip="Settings"
               >
                 <svg

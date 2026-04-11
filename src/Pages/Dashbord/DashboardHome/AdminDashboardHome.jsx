@@ -2,13 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Package, TrendingUp, Clock, CheckCircle } from "lucide-react";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
-import {
-  Legend,
-  Pie,
-  PieChart,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { Legend, Pie, PieChart, Tooltip, ResponsiveContainer } from "recharts";
 
 const AdminDashboardHome = () => {
   const axiosSecure = UseAxiosSecure();
@@ -71,90 +65,99 @@ const AdminDashboardHome = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-6"
+      className="space-y-6 min-h-screen relative"
+      style={{
+        backgroundImage: `url('https://t3.ftcdn.net/jpg/02/61/05/22/360_F_261052228_JWWd2a1m0bahg7IKqigyS6k2059oSqVc.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
     >
-      {/* Header */}
-      <div>
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          Admin Dashboard
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400">
-          Overview of delivery statistics and performance
-        </p>
-      </div>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/30 to-black/25 backdrop-blur-sm"></div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {deliveryStatus.map((state, index) => (
-          <motion.div
-            key={state?._id || index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="relative overflow-hidden bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-all duration-300"
-          >
-            {/* Gradient Background */}
-            <div
-              className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${getStatusColor(
-                state?._id
-              )} opacity-10 rounded-full -mr-16 -mt-16`}
-            ></div>
-
-            {/* Content */}
-            <div className="relative">
-              <div
-                className={`p-3 rounded-xl bg-gradient-to-br ${getStatusColor(
-                  state?._id
-                )} text-white inline-flex`}
-              >
-                {getStatusIcon(state?._id)}
-              </div>
-
-              <h3 className="mt-4 text-gray-600 dark:text-gray-400 text-sm font-medium">
-                {state?._id || "Unknown"}
-              </h3>
-
-              <p className="text-3xl font-bold text-gray-900 dark:text-white">
-                {state?.count || 0}
-              </p>
-
-              <p className="text-xs text-gray-500 mt-2">
-                Total parcels
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Chart Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-gray-700 p-6"
-      >
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
-          Delivery Status Distribution
-        </h3>
-
-        <div className="w-full h-[400px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={getPieChartData(deliveryStatus)}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={120}
-                label
-              />
-              <Legend />
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+      <div className="relative z-10">
+        {/* Header */}
+        <div>
+          <h2 className="text-3xl font-bold text-white drop-shadow-lg mb-2">
+            Admin Dashboard
+          </h2>
+          <p className="text-gray-100 drop-shadow-md">
+            Overview of delivery statistics and performance
+          </p>
         </div>
-      </motion.div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {deliveryStatus.map((state, index) => (
+            <motion.div
+              key={state?._id || index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="relative overflow-hidden bg-white/15 dark:bg-gray-900/20 backdrop-blur-3xl rounded-2xl border border-white/25 dark:border-white/15 p-6 hover:shadow-xl transition-all duration-300"
+            >
+              {/* Gradient Background */}
+              <div
+                className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${getStatusColor(
+                  state?._id,
+                )} opacity-10 rounded-full -mr-16 -mt-16`}
+              ></div>
+
+              {/* Content */}
+              <div className="relative">
+                <div
+                  className={`p-3 rounded-xl bg-gradient-to-br ${getStatusColor(
+                    state?._id,
+                  )} text-white inline-flex`}
+                >
+                  {getStatusIcon(state?._id)}
+                </div>
+
+                <h3 className="mt-4 text-gray-100 text-sm font-medium">
+                  {state?._id || "Unknown"}
+                </h3>
+
+                <p className="text-3xl font-bold text-white">
+                  {state?.count || 0}
+                </p>
+
+                <p className="text-xs text-gray-200 mt-2">Total parcels</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Chart Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="bg-white/15 dark:bg-gray-900/20 backdrop-blur-3xl rounded-2xl border border-white/25 dark:border-white/15 p-6 mx-4 sm:mx-6 lg:mx-8 mb-8"
+        >
+          <h3 className="text-xl font-semibold text-white mb-6">
+            Delivery Status Distribution
+          </h3>
+
+          <div className="w-full h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={getPieChartData(deliveryStatus)}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  label
+                />
+                <Legend />
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };
