@@ -7,6 +7,8 @@ import OurFeater from "./OurFeater";
 import Reviews from "./Reviews";
 import GlassContainer from "../../Components/GlassContainer";
 import "./HomeComponents.css";
+import HowToWork from "./HowToWork";
+import HowToFix from "./HowToFix";
 
 const reviewsPromise = fetch("/reviews.json").then((res) => res.json());
 
@@ -17,6 +19,9 @@ const Home = () => {
       <GlassContainer>
         <BannerCard />
         <BannerBox />
+        <HowToFix></HowToFix>
+        <HowToWork />
+        
         <Brands />
         <OurFeater />
         <Reviews reviewsPromise={reviewsPromise} />
