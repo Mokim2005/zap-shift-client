@@ -16,16 +16,31 @@ const Home = () => {
   return (
     <div className="home-wrapper">
       <HeroSection />
-      <GlassContainer>
-        <BannerCard />
-        <BannerBox />
-        <HowToFix></HowToFix>
-        <HowToWork />
-        
-        <Brands />
-        <OurFeater />
-        <Reviews reviewsPromise={reviewsPromise} />
-      </GlassContainer>
+      <div
+        style={{
+          backgroundImage: `url('https://www.shutterstock.com/image-photo/happy-2530-year-old-indian-600nw-2656237875.jpg')`,
+          backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="relative"
+      >
+        {/* 🔥 Blur Overlay */}
+        <div className="absolute inset-0 backdrop-blur-sm bg-black/30"></div>
+
+        {/* 🔥 Content */}
+        <div className="relative z-10">
+          <GlassContainer>
+            <BannerCard />
+            <BannerBox />
+            <HowToFix />
+            <HowToWork />
+            <Brands />
+            <OurFeater />
+            <Reviews reviewsPromise={reviewsPromise} />
+          </GlassContainer>
+        </div>
+      </div>
     </div>
   );
 };

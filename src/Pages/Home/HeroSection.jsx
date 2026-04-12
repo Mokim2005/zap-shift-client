@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router";
 import {
   FaArrowRight,
   FaTruck,
@@ -15,6 +16,7 @@ import gsap from "gsap";
 
 const HeroSection = () => {
   const heroRef = useRef(null);
+  const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -83,7 +85,7 @@ const HeroSection = () => {
       ref={heroRef}
       className="relative w-full min-h-screen md:h-auto overflow-hidden"
       style={{
-        backgroundImage: `url('https://www.shutterstock.com/image-photo/happy-2530-year-old-indian-600nw-2656237875.jpg')`,
+        backgroundImage: `url('https://t3.ftcdn.net/jpg/10/14/41/86/360_F_1014418624_10k6kouTkwnbWI295UknnMXhBDR5Lh34.jpg')`,
         backgroundAttachment: "fixed",
         backgroundSize: "cover",
         backgroundPosition: "center right",
@@ -181,6 +183,7 @@ const HeroSection = () => {
                   boxShadow: "0 15px 30px rgba(59, 130, 246, 0.4)",
                 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => navigate("/send-parcel")}
                 className="px-6 md:px-8 py-2 md:py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-full flex items-center justify-center gap-2 shadow-lg hover:shadow-2xl transition-all duration-300 group text-sm md:text-base w-full xs:w-auto"
               >
                 Send Parcel
@@ -193,6 +196,7 @@ const HeroSection = () => {
                   boxShadow: "0 15px 30px rgba(139, 92, 246, 0.4)",
                 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => navigate("/parcel-track")}
                 className="px-6 md:px-8 py-2 md:py-3 bg-white/15 backdrop-blur-lg border-2 border-white/40 text-white font-bold rounded-full hover:bg-white/25 hover:border-white/60 transition-all duration-300 flex items-center justify-center gap-2 group text-sm md:text-base w-full xs:w-auto"
               >
                 Track Shipment
