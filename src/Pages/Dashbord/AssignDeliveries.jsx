@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Package, CheckCircle, AlertCircle, Truck } from "lucide-react";
 import UseAuth from "../../Hooks/UseAuth";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import Pagination from "../../Components/Pagination";
@@ -82,79 +84,136 @@ const AssignDeliveries = () => {
   );
 
   return (
-    <div>
-      <h2 className="text-4xl mb-4">
-        Parcels Pending Pickup: {parcels.length}
-      </h2>
+    <div className="space-y-6 px-2 sm:px-4 md:px-8 py-2 sm:py-3 md:py-4">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex items-center justify-between"
+      >
+        <div>
+          <h2 className="text-3xl font-bold text-white drop-shadow-lg">
+            Parcels Pending Pickup
+          </h2>
+          <p className="text-gray-100/70 mt-1">
+            Total: {parcels.length} parcels assigned
+          </p>
+        </div>
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          className="p-4 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg drop-shadow-lg"
+        >
+          <Truck className="w-6 h-6" />
+        </motion.div>
+      </motion.div>
 
-      <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Confirm</th>
-              <th>Other Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedParcels.map((parcel, i) => (
-              <tr key={parcel._id}>
-                <th>{(currentPage - 1) * ITEMS_PER_PAGE + i + 1}</th>
-                <td>{parcel.parcelName}</td>
-
-                {/* Confirm / Accept / Reject */}
-                <td>
-                  {parcel.deliveryStatus === "driver_assigned" ? (
-                    <>
-                      <button
-                        onClick={() =>
-                          confirmStatusUpdate(parcel, "rider_arriving")
-                        }
-                        className="btn btn-primary text-black mr-2"
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() =>
-                          confirmStatusUpdate(parcel, "driver_rejected")
-                        }
-                        className="btn btn-warning text-black"
-                      >
-                        Reject
-                      </button>
-                    </>
-                  ) : (
-                    <span className="btn btn-primary text-black mr-2">
-                      Accepted
-                    </span>
-                  )}
-                </td>
-
-                {/* Other actions */}
-                <td>
-                  <button
-                    onClick={() =>
-                      confirmStatusUpdate(parcel, "parcel_picked_up")
-                    }
-                    className="btn btn-primary text-black mr-2"
-                  >
-                    Mark as Picked Up
-                  </button>
-                  <button
-                    onClick={() =>
-                      confirmStatusUpdate(parcel, "parcel_delivered")
-                    }
-                    className="btn btn-primary text-black mr-2"
-                  >
-                    Mark as Delivered
-                  </button>
-                </td>
+      {/* Table Container */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="bg-white/15 backdrop-blur-3xl rounded-2xl border border-white/25 shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
+      >
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-full table-auto">
+            <thead className="bg-white/10 border-b border-white/20">
+              <tr>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  #
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Parcel Name
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Confirm
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="divide-y divide-white/20">
+              {paginatedParcels.map((parcel, i) => (
+                <motion.tr
+                  key={parcel._id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  whileHover={{ backgroundColor: "rgba(59, 130, 246, 0.15)" }}
+                  className="transition-all duration-300 hover:bg-blue-500/10"
+                >
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-100">
+                    {(currentPage - 1) * ITEMS_PER_PAGE + i + 1}
+                  </td>
+
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-white font-medium">
+                    <div className="flex items-center gap-2">
+                      <Package className="w-4 h-4 text-blue-300" />
+                      {parcel.parcelName}
+                    </div>
+                  </td>
+
+                  {/* Confirm / Accept / Reject */}
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
+                    {parcel.deliveryStatus === "driver_assigned" ? (
+                      <div className="flex gap-1 sm:gap-2 flex-wrap">
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          onClick={() =>
+                            confirmStatusUpdate(parcel, "rider_arriving")
+                          }
+                          className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-lg bg-green-500/30 border border-green-500/50 text-green-200 hover:bg-green-500/50 hover:shadow-md transition-all duration-300 font-medium"
+                        >
+                          Accept
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          onClick={() =>
+                            confirmStatusUpdate(parcel, "driver_rejected")
+                          }
+                          className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-lg bg-red-500/30 border border-red-500/50 text-red-200 hover:bg-red-500/50 hover:shadow-md transition-all duration-300 font-medium"
+                        >
+                          Reject
+                        </motion.button>
+                      </div>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full bg-green-500/30 text-green-200 border border-green-500/50 font-medium">
+                        <CheckCircle className="w-3 h-3" />
+                        Accepted
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Other actions */}
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
+                    <div className="flex gap-1 sm:gap-2 flex-wrap">
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        onClick={() =>
+                          confirmStatusUpdate(parcel, "parcel_picked_up")
+                        }
+                        className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-lg bg-blue-500/30 border border-blue-500/50 text-blue-200 hover:bg-blue-500/50 hover:shadow-md transition-all duration-300 font-medium"
+                      >
+                        Picked Up
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        onClick={() =>
+                          confirmStatusUpdate(parcel, "parcel_delivered")
+                        }
+                        className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-lg bg-purple-500/30 border border-purple-500/50 text-purple-200 hover:bg-purple-500/50 hover:shadow-md transition-all duration-300 font-medium"
+                      >
+                        Delivered
+                      </motion.button>
+                    </div>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </motion.div>
 
       {/* PAGINATION */}
       {parcels.length > ITEMS_PER_PAGE && (

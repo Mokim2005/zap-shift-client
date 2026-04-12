@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Package, DollarSign, CalendarIcon, MapPin } from "lucide-react";
 import UseAuth from "../../Hooks/UseAuth";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
@@ -36,46 +38,127 @@ const CompletedDeliveries = () => {
   );
 
   return (
-    <div>
-      <h2 className="text-4xl text-black">
-        Completed Deliveries: {Parcels.length}
-      </h2>
+    <div className="space-y-6 px-2 sm:px-4 md:px-8 py-2 sm:py-3 md:py-4">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex items-center justify-between"
+      >
+        <div>
+          <h2 className="text-3xl font-bold text-white drop-shadow-lg">
+            Completed Deliveries
+          </h2>
+          <p className="text-gray-100/70 mt-1">
+            Total: {Parcels.length} deliveries completed
+          </p>
+        </div>
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          className="p-4 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-lg drop-shadow-lg"
+        >
+          <Package className="w-6 h-6" />
+        </motion.div>
+      </motion.div>
 
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          {/* head */}
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-
-              <th>Created At</th>
-              <th>Pikup District</th>
-              <th>Cost</th>
-              <th>Payout</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedParcels.map((parcel, i) => (
-              <tr key={parcel._id}>
-                <th>{(currentPage - 1) * ITEMS_PER_PAGE + i + 1}</th>
-                <td>{parcel.parcelName}</td>
-
-                <td>{parcel.createdAt}</td>
-                <td>{parcel.senderDistrict}</td>
-                <td>${parcel.cost}</td>
-                <td>${calculatePayout(parcel)}</td>
-                <td>
-                  <button className="btn btn-primary text-black">
-                    Cash Out
-                  </button>
-                </td>
+      {/* Table Container */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="bg-white/15 backdrop-blur-3xl rounded-2xl border border-white/25 shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
+      >
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-full table-auto">
+            <thead className="bg-white/10 border-b border-white/20">
+              <tr>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  #
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Parcel Name
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Date
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  District
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Cost
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Payout
+                </th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-white uppercase">
+                  Action
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="divide-y divide-white/20">
+              {paginatedParcels.map((parcel, i) => (
+                <motion.tr
+                  key={parcel._id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  whileHover={{ backgroundColor: "rgba(34, 197, 94, 0.15)" }}
+                  className="transition-all duration-300 hover:bg-green-500/10"
+                >
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-100">
+                    {(currentPage - 1) * ITEMS_PER_PAGE + i + 1}
+                  </td>
+
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-white font-medium">
+                    <div className="flex items-center gap-2">
+                      <Package className="w-4 h-4 text-blue-300" />
+                      {parcel.parcelName}
+                    </div>
+                  </td>
+
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
+                    <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-100">
+                      <CalendarIcon className="w-3 h-3 text-gray-300" />
+                      {new Date(parcel.createdAt).toLocaleDateString()}
+                    </div>
+                  </td>
+
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
+                    <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-100">
+                      <MapPin className="w-3 h-3 text-orange-300" />
+                      {parcel.senderDistrict}
+                    </div>
+                  </td>
+
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
+                    <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full bg-blue-500/30 text-blue-200 border border-blue-500/50 font-semibold">
+                      <DollarSign className="w-3 h-3" />
+                      {parcel.cost}
+                    </span>
+                  </td>
+
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
+                    <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full bg-green-500/30 text-green-200 border border-green-500/50 font-semibold">
+                      <DollarSign className="w-3 h-3" />
+                      {calculatePayout(parcel).toFixed(2)}
+                    </span>
+                  </td>
+
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      className="px-3 py-1.5 text-xs sm:text-sm rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-300"
+                    >
+                      Cash Out
+                    </motion.button>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </motion.div>
 
       {/* PAGINATION */}
       {Parcels.length > ITEMS_PER_PAGE && (
