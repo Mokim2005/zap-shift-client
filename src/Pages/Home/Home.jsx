@@ -1,5 +1,5 @@
 import React from "react";
-import Banner from "./Banner";
+import HeroSection from "./HeroSection";
 import BannerCard from "./BannerCard";
 import BannerBox from "./BannerBox";
 import Brands from "./Brands";
@@ -12,14 +12,16 @@ const reviewsPromise = fetch("/reviews.json").then((res) => res.json());
 
 const Home = () => {
   return (
-    <GlassContainer>
-      <Banner />
-      <BannerCard />
-      <BannerBox />
-      <Brands />
-      <OurFeater />
-      <Reviews reviewsPromise={reviewsPromise} />
-    </GlassContainer>
+    <div className="home-wrapper">
+      <HeroSection />
+      <GlassContainer>
+        <BannerCard />
+        <BannerBox />
+        <Brands />
+        <OurFeater />
+        <Reviews reviewsPromise={reviewsPromise} />
+      </GlassContainer>
+    </div>
   );
 };
 
