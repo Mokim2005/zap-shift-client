@@ -1,87 +1,171 @@
 import React from "react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
-import { ShieldX, Home, LayoutDashboard } from "lucide-react";
+import { ShieldX, Home, LayoutDashboard, ArrowRight } from "lucide-react";
 
 const Forbidden = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 dark:from-gray-950 dark:via-gray-900 dark:to-black relative overflow-hidden">
-      
-      {/* Background Glow */}
-      <div className="absolute top-20 left-20 w-72 h-72 bg-red-300/30 blur-3xl rounded-full animate-pulse"></div>
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-300/30 blur-3xl rounded-full animate-pulse"></div>
+    <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Animated Background Elements */}
+      <motion.div
+        className="absolute top-10 left-10 w-96 h-96 bg-red-500/10 blur-3xl rounded-full"
+        animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 blur-3xl rounded-full"
+        animate={{ x: [0, -30, 0], y: [0, 20, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute top-1/2 left-1/4 w-72 h-72 bg-blue-500/10 blur-3xl rounded-full"
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+      />
 
-      {/* Card */}
+      {/* Main Content */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-xl"
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative z-10 w-full max-w-2xl"
       >
-        <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border border-white/40 dark:border-gray-700 rounded-3xl shadow-2xl p-10 text-center">
-
-          {/* Icon */}
+        {/* Glass Card */}
+        <div className="bg-white/10 dark:bg-slate-900/40 backdrop-blur-3xl border border-white/20 dar:border-white/10 rounded-3xl shadow-2xl p-8 md:p-12 text-center hover:shadow-3xl transition-all duration-300">
+          {/* Icon with Animation */}
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="flex justify-center mb-6"
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
+            className="flex justify-center mb-8"
           >
-            <div className="p-6 bg-red-100 dark:bg-red-900/30 rounded-full">
-              <ShieldX className="w-12 h-12 text-red-600 dark:text-red-400" />
+            <div className="relative">
+              <motion.div
+                className="absolute inset-0 bg-red-500/30 blur-2xl rounded-full"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <div className="relative p-6 bg-gradient-to-br from-red-500/20 to-pink-500/20 border border-red-500/30 rounded-full">
+                <ShieldX className="w-16 h-16 text-red-400" />
+              </div>
             </div>
           </motion.div>
 
           {/* Error Code */}
-          <h1 className="text-6xl font-extrabold bg-gradient-to-r from-red-500 to-pink-600 bg-clip-text text-transparent">
-            403
-          </h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <h1 className="text-7xl md:text-8xl font-extrabold bg-gradient-to-r from-red-400 via-pink-400 to-orange-400 bg-clip-text text-transparent mb-4">
+              403
+            </h1>
 
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mt-3">
-            Access Forbidden
-          </h2>
+            {/* Title */}
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Access Forbidden
+            </h2>
 
-          <p className="text-gray-600 dark:text-gray-400 mt-4 max-w-md mx-auto">
-            You do not have permission to access this page. Please go back to
-            the homepage or your dashboard.
-          </p>
+            {/* Description */}
+            <p className="text-gray-300 text-lg max-w-xl mx-auto mb-2">
+              You don't have permission to access this resource.
+            </p>
+            <p className="text-gray-400 text-sm mb-8">
+              Your current role doesn't grant access to this section.
+            </p>
+          </motion.div>
 
-          {/* Buttons */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-            {/* Home */}
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8"
+          >
+            {/* Go Home */}
             <Link
               to="/"
-              className="flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+              className="group relative inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 overflow-hidden"
             >
-              <Home size={18} />
-              Home
+              <motion.div
+                className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"
+                initial={false}
+              />
+              <Home size={20} />
+              <span className="relative">Home</span>
+              <motion.div
+                className="relative"
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <ArrowRight size={18} />
+              </motion.div>
             </Link>
 
-            {/* Dashboard */}
+            {/* Go to Dashboard */}
             <Link
               to="/dashboard"
-              className="flex items-center justify-center gap-2 py-3 rounded-xl font-semibold border border-gray-300 dark:border-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-105"
+              className="group relative inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 overflow-hidden"
             >
-              <LayoutDashboard size={18} />
-              Dashboard
-            </Link>
-          </div>
-
-          {/* Footer */}
-          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Need help?{" "}
-              <a
-                href="mailto:support@swiftparcel.com"
-                className="text-blue-600 hover:underline"
+              <motion.div
+                className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"
+                initial={false}
+              />
+              <LayoutDashboard size={20} />
+              <span className="relative">Dashboard</span>
+              <motion.div
+                className="relative"
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 0.1 }}
               >
-                Contact Support
-              </a>
-            </p>
-          </div>
+                <ArrowRight size={18} />
+              </motion.div>
+            </Link>
+          </motion.div>
 
+          {/* Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent mb-8"
+          />
+
+          {/* Support Footer */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            className="space-y-3"
+          >
+            <p className="text-gray-300">Need assistance?</p>
+            <a
+              href="mailto:support@swiftparcel.com"
+              className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300 font-semibold group"
+            >
+              <span>Contact our support team</span>
+              <motion.span
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                →
+              </motion.span>
+            </a>
+          </motion.div>
         </div>
+
+        {/* Bottom Info */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
+          className="mt-8 text-center text-gray-400 text-sm"
+        >
+          <p>
+            Error Code:{" "}
+            <span className="text-cyan-400 font-mono">403_FORBIDDEN</span>
+          </p>
+        </motion.div>
       </motion.div>
     </div>
   );

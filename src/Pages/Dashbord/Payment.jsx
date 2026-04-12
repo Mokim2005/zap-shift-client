@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { motion } from "framer-motion";
 import { CreditCard, Package } from "lucide-react";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import GlassLoading from "../../Components/GlassLoading";
 
 const Payment = () => {
   const { parcelId } = useParams();
@@ -18,11 +19,7 @@ const Payment = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-spinner text-error w-16"></span>
-      </div>
-    );
+    return <GlassLoading message="Processing payment..." />;
   }
 
   const handlePayment = async () => {
@@ -33,17 +30,13 @@ const Payment = () => {
       parcelName: parcel.parcelName,
     };
 
-    const res = await axiosSecure.post(
-      "/create-cheakout-session",
-      paymentInfo
-    );
+    const res = await axiosSecure.post("/create-cheakout-session", paymentInfo);
 
     window.location.href = res.data.url;
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
-      
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}

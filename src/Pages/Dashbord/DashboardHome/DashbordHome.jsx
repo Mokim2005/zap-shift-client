@@ -1,7 +1,7 @@
 import React from "react";
 
 import UseRole from "../../../Hooks/UseRole";
-import Loading from "../../../Components/Loading";
+import GlassLoading from "../../../Components/GlassLoading";
 import AdminDashboardHome from "./AdminDashboardHome";
 import RiderDashboardHome from "./RiderDashboardHome";
 import UserDashboardHome from "./UserDashboardHome";
@@ -10,7 +10,7 @@ const DashbordHome = () => {
   const { role, roleLoading } = UseRole();
 
   if (roleLoading) {
-    return <Loading></Loading>;
+    return <GlassLoading message="Loading dashboard..." />;
   } else if (role === "admin") {
     return <AdminDashboardHome></AdminDashboardHome>;
   } else if (role === "rider") {

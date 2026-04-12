@@ -1,16 +1,16 @@
-import React from 'react';
-import UseAuth from '../Hooks/UseAuth';
-import UseRole from '../Hooks/UseRole';
-import Loading from '../Components/Loading';
-import Forbidden from '../Components/Forbidden';
+import React from "react";
+import UseAuth from "../Hooks/UseAuth";
+import UseRole from "../Hooks/UseRole";
+import GlassLoading from "../Components/GlassLoading";
+import Forbidden from "../Components/Forbidden";
 
-const RiderRout = ({children}) => {
+const RiderRout = ({ children }) => {
   const { loading } = UseAuth();
 
   const { role, roleLoading } = UseRole();
 
   if (loading || roleLoading) {
-    return <Loading></Loading>;
+    return <GlassLoading message="Verifying rider status..." />;
   }
 
   if (role !== "rider") {
@@ -18,6 +18,5 @@ const RiderRout = ({children}) => {
   }
   return children;
 };
-
 
 export default RiderRout;

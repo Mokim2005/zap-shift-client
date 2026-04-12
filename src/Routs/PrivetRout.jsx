@@ -1,14 +1,14 @@
 import React from "react";
 import UseAuth from "../Hooks/UseAuth";
 import { Navigate, useLocation } from "react-router";
-import Loading from "../Components/Loading";
+import GlassLoading from "../Components/GlassLoading";
 
 const PrivetRout = ({ children }) => {
   const { user, loading } = UseAuth();
   const location = useLocation();
 
   if (loading) {
-    return <Loading></Loading>;
+    return <GlassLoading message="Authenticating..." />;
   }
 
   if (!user) {

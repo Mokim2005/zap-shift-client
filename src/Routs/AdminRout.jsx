@@ -2,7 +2,7 @@ import React from "react";
 import UseAuth from "../Hooks/UseAuth";
 import UseRole from "../Hooks/UseRole";
 import Forbidden from "../Components/Forbidden";
-import Loading from "../Components/Loading";
+import GlassLoading from "../Components/GlassLoading";
 
 const AdminRout = ({ children }) => {
   const { loading } = UseAuth();
@@ -10,7 +10,7 @@ const AdminRout = ({ children }) => {
   const { role, roleLoading } = UseRole();
 
   if (loading || roleLoading) {
-    return <Loading></Loading>;
+    return <GlassLoading message="Verifying permissions..." />;
   }
 
   if (role !== "admin") {

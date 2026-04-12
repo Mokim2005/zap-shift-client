@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import UseAuth from "../../Hooks/UseAuth";
 import Pagination from "../../Components/Pagination";
-import Loading from "../../Components/Loading";
+import GlassLoading from "../../Components/GlassLoading";
 
 const UsersManagement = () => {
   const axiosSecure = UseAxiosSecure();
@@ -95,7 +95,7 @@ const UsersManagement = () => {
   };
 
   if (authLoading || isLoading) {
-    return <Loading />;
+    return <GlassLoading message="Loading users..." />;
   }
 
   // Pagination Logic

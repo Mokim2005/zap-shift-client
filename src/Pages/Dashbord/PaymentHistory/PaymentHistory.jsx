@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import UseAuth from "../../../Hooks/UseAuth";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 import Pagination from "../../../Components/Pagination";
+import GlassLoading from "../../../Components/GlassLoading";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,9 +82,7 @@ const PaymentHistory = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <span className="loading loading-spinner loading-lg text-blue-300"></span>
-      </div>
+      <GlassLoading message="Loading payment history..." fullScreen={false} />
     );
   }
 
