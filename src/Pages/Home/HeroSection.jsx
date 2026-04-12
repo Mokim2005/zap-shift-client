@@ -72,7 +72,7 @@ const HeroSection = () => {
   ];
 
   const appImages = [
-    "https://www.shutterstock.com/image-photo/full-body-side-view-delivery-260nw-2433176099.jpg",
+    "https://thumbs.dreamstime.com/b/delivery-man-hold-shopping-boxes-home-parcel-deliver-green-jacket-uniform-blur-motorcycle-background-online-mobile-190349640.jpg",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpZjrVdyNnQYFZnShvBA52F39m1WwytbDnWA&s",
     "https://www.shutterstock.com/image-photo/happy-2530-year-old-indian-600nw-2656237875.jpg",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-SRRo90pE6mUcClAqQSSD_rxBDyQOrucTOA&s",

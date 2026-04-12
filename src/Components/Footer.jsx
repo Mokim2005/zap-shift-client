@@ -60,26 +60,41 @@ const Footer = () => {
     },
   ];
 
+  const bgImageUrl =
+    "https://t4.ftcdn.net/jpg/03/59/94/55/360_F_359945582_AoAGhekxCJiGVQdlsAPHuqmGJ8sbhPth.jpg";
+
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-colors duration-200">
+    <footer
+      style={{
+        backgroundImage: `url('${bgImageUrl}')`,
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+      className="bg-gradient-to-b from-black/75 via-black/70 to-black/80 backdrop-blur-xl border-t border-white/10 dark:border-white/5 transition-all duration-200"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-           <div className="flex items-center gap-2">
-             <Logo />
-             <h2 className="font-semibold text-2xl">SwiftParcel</h2>
-           </div>
+            <div className="flex items-center gap-2">
+              <Logo />
+              <h2 className="font-semibold text-2xl bg-gradient-to-r from-blue-400 via-cyan-400 to-white dark:from-blue-300 dark:via-cyan-300 dark:to-white bg-clip-text text-transparent">
+                SwiftParcel
+              </h2>
+            </div>
 
-            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400 max-w-sm">
-              Fast, reliable, and secure parcel delivery service. We deliver your packages with care and speed across the nation.
+            <p className="mt-4 text-sm text-gray-300 dark:text-gray-400 max-w-sm">
+              Fast, reliable, and secure parcel delivery service. We deliver
+              your packages with care and speed across the nation.
             </p>
             <div className="flex items-center space-x-4 mt-6">
               {socialLinks.map((social) => (
                 <a
                   key={social.name}
                   href="#"
-                  className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
+                  className="p-2 text-gray-300 dark:text-gray-400 hover:text-white hover:bg-white/15 dark:hover:bg-white/10 rounded-lg transition-all duration-200 backdrop-blur-lg"
                   aria-label={social.name}
                 >
                   {social.icon}
@@ -90,7 +105,7 @@ const Footer = () => {
 
           {/* Company Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent">
               Company
             </h3>
             <ul className="space-y-3">
@@ -98,7 +113,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.to}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                    className="text-sm text-gray-300 hover:text-white hover:bg-white/10 px-2 py-1 rounded transition-all duration-200"
                   >
                     {link.label}
                   </Link>
@@ -109,7 +124,7 @@ const Footer = () => {
 
           {/* Services Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent">
               Services
             </h3>
             <ul className="space-y-3">
@@ -117,7 +132,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.to}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                    className="text-sm text-gray-300 hover:text-white hover:bg-white/10 px-2 py-1 rounded transition-all duration-200"
                   >
                     {link.label}
                   </Link>
@@ -128,7 +143,7 @@ const Footer = () => {
 
           {/* Support Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent">
               Support
             </h3>
             <ul className="space-y-3">
@@ -136,7 +151,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.to}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                    className="text-sm text-gray-300 hover:text-white hover:bg-white/10 px-2 py-1 rounded transition-all duration-200"
                   >
                     {link.label}
                   </Link>
@@ -147,27 +162,27 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+        <div className="mt-12 pt-8 border-t border-white/20">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-300 dark:text-gray-400">
               © {currentYear} SwiftParcel. All rights reserved.
             </p>
             <div className="flex items-center space-x-6">
               <Link
                 to="/"
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                className="text-sm text-gray-300 hover:text-white hover:bg-white/10 px-2 py-1 rounded transition-all duration-200"
               >
                 Terms
               </Link>
               <Link
                 to="/"
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                className="text-sm text-gray-300 hover:text-white hover:bg-white/10 px-2 py-1 rounded transition-all duration-200"
               >
                 Privacy
               </Link>
               <Link
                 to="/"
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                className="text-sm text-gray-300 hover:text-white hover:bg-white/10 px-2 py-1 rounded transition-all duration-200"
               >
                 Cookies
               </Link>
