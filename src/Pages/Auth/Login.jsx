@@ -21,139 +21,119 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (data) => {
-    setLoginError("");
-    setIsLoading(true);
+  const handleLogin = async (data) => {
+    try {
+      setLoginError("");
+      setIsLoading(true);
 
-    signInUser(data.email, data.password)
-      .then(() => {
-        setIsLoading(false);
-        navigate(location?.state || "/");
-      })
-      .catch((err) => {
-        setIsLoading(false);
-
-        if (err.code === "auth/user-not-found") {
-          setLoginError("Email address not found. Please register first.");
-        } else if (err.code === "auth/wrong-password") {
-          setLoginError("Incorrect password.");
-        } else {
-          setLoginError("Login failed. Please try again.");
-        }
-      });
+      await signInUser(data.email, data.password);
+      navigate(location?.state || "/");
+    } catch (err) {
+      if (err.code === "auth/user-not-found") {
+        setLoginError("Email not found. Register first.");
+      } else if (err.code === "auth/wrong-password") {
+        setLoginError("Incorrect password.");
+      } else {
+        setLoginError("Login failed.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div
+      className="min-h-screen flex items-center justify-center px-4 py-8 relative overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.75)), url('https://thumbs.dreamstime.com/b/delivery-man-delivering-holding-parcel-box-to-customer-144632660.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      {/* Blur */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" />
+
       <motion.div
-        initial={{ y: 50, opacity: 0 }}
+        initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8"
+        className="w-full max-w-md relative z-10"
       >
-        <h2 className="text-3xl font-bold text-center mb-2">Welcome Back 👋</h2>
+        <div className="bg-white/15 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-3xl p-8 md:p-10">
 
-        <p className="text-center text-gray-500 mb-6">Login to continue</p>
-
-        {loginError && (
-          <div className="bg-red-100 text-red-600 p-3 rounded mb-4 text-sm">
-            {loginError}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit(handleLogin)} className="space-y-5">
-          {/* EMAIL */}
-          <div className="relative">
-            <Mail size={18} className="absolute left-3 top-3 text-gray-400" />
-
-            <input
-              type="email"
-              placeholder="Email address"
-              {...register("email", { required: "Email is required" })}
-              className="w-full border pl-10 pr-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-            />
-
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
-            )}
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-bold text-white mb-2">
+              Welcome Back
+            </h2>
+            <p className="text-white/80 text-sm">
+              Sign in to your SwiftParcel account
+            </p>
           </div>
 
-          {/* PASSWORD */}
-          <div className="relative">
-            <Lock size={18} className="absolute left-3 top-3 text-gray-400" />
+          {/* Error */}
+          {loginError && (
+            <p className="text-red-300 text-center mb-4">{loginError}</p>
+          )}
 
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              {...register("password", {
-                required: "Password required",
-                minLength: {
-                  value: 6,
-                  message: "Minimum 6 characters",
-                },
-              })}
-              className="w-full border pl-10 pr-10 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-            />
+          {/* Form */}
+          <form onSubmit={handleSubmit(handleLogin)} className="space-y-5">
 
-            <span
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-3 cursor-pointer text-gray-500"
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </span>
+            {/* Email */}
+            <div className="relative">
+              <Mail className="absolute left-4 top-3.5 text-white/50" />
+              <input
+                type="email"
+                placeholder="Email"
+                {...register("email", { required: true })}
+                className="w-full pl-12 py-3 bg-white/10 border border-white/20 rounded-xl text-white"
+              />
+            </div>
 
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
+            {/* Password */}
+            <div className="relative">
+              <Lock className="absolute left-4 top-3.5 text-white/50" />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                {...register("password", { required: true })}
+                className="w-full pl-12 pr-12 py-3 bg-white/10 border border-white/20 rounded-xl text-white"
+              />
 
-          {/* FORGOT PASSWORD */}
-          <div className="text-right">
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-3.5 text-white/50"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            {/* Button */}
             <button
-              type="button"
-              className="text-sm text-blue-600 hover:underline"
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl"
             >
-              Forgot Password?
+              {isLoading ? "Signing in..." : "Sign In"}
             </button>
-          </div>
 
-          {/* LOGIN BUTTON */}
-          <button
-            disabled={isLoading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition flex items-center justify-center"
-          >
-            {isLoading ? (
-              <span className="loading loading-spinner"></span>
-            ) : (
-              "Login"
-            )}
-          </button>
-        </form>
+          </form>
 
-        {/* Divider */}
-        <div className="my-6 flex items-center gap-3">
-          <div className="flex-1 h-px bg-gray-200"></div>
-          <span className="text-gray-400 text-sm">OR</span>
-          <div className="flex-1 h-px bg-gray-200"></div>
+          <div className="my-6 border-t border-white/20"></div>
+
+          <SocialLogin />
+
+          <p className="text-center mt-6 text-white/80 text-sm">
+            Don't have an account?{" "}
+            <Link to="/register" className="text-blue-300 underline">
+              Create one
+            </Link>
+          </p>
+
         </div>
-
-        <SocialLogin />
-
-        {/* REGISTER */}
-        <p className="text-center mt-6 text-sm">
-          Don’t have an account?{" "}
-          <Link
-            to="/register"
-            state={location?.state}
-            className="text-blue-600 font-semibold hover:underline"
-          >
-            Register
-          </Link>
-        </p>
       </motion.div>
     </div>
   );

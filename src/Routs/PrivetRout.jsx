@@ -6,13 +6,13 @@ import Loading from "../Components/Loading";
 const PrivetRout = ({ children }) => {
   const { user, loading } = UseAuth();
   const location = useLocation();
-  console.log(location);
+
   if (loading) {
     return <Loading></Loading>;
   }
 
   if (!user) {
-    return <Navigate state={location.pathname} to="/login"></Navigate>;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
   return children;
 };
