@@ -1,19 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import UseAuth from "../../Hooks/UseAuth";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import Pagination from "../../Components/Pagination";
 import Swal from "sweetalert2";
 
 const AssignDeliveries = () => {
   const { user } = UseAuth();
   const axiosSecure = UseAxiosSecure();
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
   // Fetch parcels assigned to this rider
   const { data: parcels = [], refetch } = useQuery({
     queryKey: ["parcels", user.email, "driver-assigned"],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/parcels/rider?riderEmail=${user.email}&deliveryStatus=driver_assigned`
+        `/parcels/rider?riderEmail=${user.email}&deliveryStatus=driver_assigned`,
       );
       return res.data;
     },
@@ -71,9 +74,18 @@ const AssignDeliveries = () => {
       });
   };
 
+  // Pagination Logic
+  const totalPages = Math.ceil(parcels.length / ITEMS_PER_PAGE);
+  const paginatedParcels = parcels.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
+
   return (
     <div>
-      <h2 className="text-4xl mb-4">Parcels Pending Pickup: {parcels.length}</h2>
+      <h2 className="text-4xl mb-4">
+        Parcels Pending Pickup: {parcels.length}
+      </h2>
 
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
@@ -86,9 +98,9 @@ const AssignDeliveries = () => {
             </tr>
           </thead>
           <tbody>
-            {parcels.map((parcel, i) => (
+            {paginatedParcels.map((parcel, i) => (
               <tr key={parcel._id}>
-                <th>{i + 1}</th>
+                <th>{(currentPage - 1) * ITEMS_PER_PAGE + i + 1}</th>
                 <td>{parcel.parcelName}</td>
 
                 {/* Confirm / Accept / Reject */}
@@ -96,13 +108,17 @@ const AssignDeliveries = () => {
                   {parcel.deliveryStatus === "driver_assigned" ? (
                     <>
                       <button
-                        onClick={() => confirmStatusUpdate(parcel, "rider_arriving")}
+                        onClick={() =>
+                          confirmStatusUpdate(parcel, "rider_arriving")
+                        }
                         className="btn btn-primary text-black mr-2"
                       >
                         Accept
                       </button>
                       <button
-                        onClick={() => confirmStatusUpdate(parcel, "driver_rejected")}
+                        onClick={() =>
+                          confirmStatusUpdate(parcel, "driver_rejected")
+                        }
                         className="btn btn-warning text-black"
                       >
                         Reject
@@ -118,13 +134,17 @@ const AssignDeliveries = () => {
                 {/* Other actions */}
                 <td>
                   <button
-                    onClick={() => confirmStatusUpdate(parcel, "parcel_picked_up")}
+                    onClick={() =>
+                      confirmStatusUpdate(parcel, "parcel_picked_up")
+                    }
                     className="btn btn-primary text-black mr-2"
                   >
                     Mark as Picked Up
                   </button>
                   <button
-                    onClick={() => confirmStatusUpdate(parcel, "parcel_delivered")}
+                    onClick={() =>
+                      confirmStatusUpdate(parcel, "parcel_delivered")
+                    }
                     className="btn btn-primary text-black mr-2"
                   >
                     Mark as Delivered
@@ -135,6 +155,15 @@ const AssignDeliveries = () => {
           </tbody>
         </table>
       </div>
+
+      {/* PAGINATION */}
+      {parcels.length > ITEMS_PER_PAGE && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Package, CreditCard } from "lucide-react";
 import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
@@ -6,12 +6,15 @@ import Swal from "sweetalert2";
 import gsap from "gsap";
 import UseAuth from "../../Hooks/UseAuth";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import Pagination from "../../Components/Pagination";
 import { FaTrashCan } from "react-icons/fa6";
 
 const MyParcels = () => {
   const { user } = UseAuth();
   const axiosSecure = UseAxiosSecure();
   const headerRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
   const { data: parcels = [], refetch } = useQuery({
     queryKey: ["myparcels", user?.email],
@@ -81,26 +84,37 @@ const MyParcels = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen space-y-6 p-4 sm:p-6 md:p-8 relative">
-      {/* HEADER */}
-      <div ref={headerRef} className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold text-white drop-shadow-lg">
-            My Parcels
-          </h2>
-          <p className="text-gray-100 drop-shadow-md mt-1">
-            Total Parcels :
-            <span className="text-blue-300 font-bold ml-1">
-              {parcels.length}
-            </span>
-          </p>
-        </div>
+  // Pagination Logic
+  const totalPages = Math.ceil(parcels.length / ITEMS_PER_PAGE);
+  const paginatedParcels = parcels.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
 
-        <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg drop-shadow-lg">
+  return (
+    <div className="min-h-screen space-y-6 p-4 sm:p-6 md:p-8 relative pt-6">
+      {/* HEADER */}
+      {/* <div
+        ref={headerRef}
+        className="flex flex-col items-center justify-center text-center relative z-20 
+  bg-gradient-to-r from-blue-700/60 via-indigo-700/60 to-purple-700/60 
+  backdrop-blur-xl p-8 rounded-2xl border border-white/30 shadow-xl"
+      >
+        <h2 className="text-4xl font-extrabold text-white drop-shadow-lg">
+          My Parcels
+        </h2>
+
+        <p className="text-white mt-2 font-semibold">
+          Total Parcels :
+          <span className="text-yellow-300 font-bold ml-2 text-lg">
+            {parcels.length}
+          </span>
+        </p>
+
+        <div className="mt-4 p-3 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md">
           <Package className="w-6 h-6" />
         </div>
-      </div>
+      </div> */}
 
       {/* TABLE */}
       <div className="bg-white/15 dark:bg-white/15 backdrop-blur-3xl rounded-2xl border border-white/25 shadow-xl overflow-hidden">
@@ -128,9 +142,11 @@ const MyParcels = () => {
             </thead>
 
             <tbody className="divide-y divide-white/20">
-              {parcels.map((parcel, i) => (
+              {paginatedParcels.map((parcel, i) => (
                 <tr key={parcel._id} className="hover:bg-white/10 transition">
-                  <td className="px-5 py-4 text-gray-100">{i + 1}</td>
+                  <td className="px-5 py-4 text-gray-100">
+                    {(currentPage - 1) * ITEMS_PER_PAGE + i + 1}
+                  </td>
 
                   <td className="px-5 py-4 font-medium text-white">
                     {parcel.parcelName}
@@ -210,6 +226,15 @@ const MyParcels = () => {
           </div>
         )}
       </div>
+
+      {/* PAGINATION */}
+      {parcels.length > ITEMS_PER_PAGE && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 };

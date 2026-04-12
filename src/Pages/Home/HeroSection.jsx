@@ -72,7 +72,7 @@ const HeroSection = () => {
   ];
 
   const appImages = [
-    "https://thumbs.dreamstime.com/b/delivery-man-hold-shopping-boxes-home-parcel-deliver-green-jacket-uniform-blur-motorcycle-background-online-mobile-190349640.jpg",
+    "https://img.freepik.com/premium-photo/green-logistics-with-electric-vehicles-ecofriendly-vans-symbolizing-sustainable-transportation-environmentally-conscious-delivery-solutions_1019851-6507.jpg?semt=ais_hybrid&w=740&q=80",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpZjrVdyNnQYFZnShvBA52F39m1WwytbDnWA&s",
     "https://www.shutterstock.com/image-photo/happy-2530-year-old-indian-600nw-2656237875.jpg",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-SRRo90pE6mUcClAqQSSD_rxBDyQOrucTOA&s",

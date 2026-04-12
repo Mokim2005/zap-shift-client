@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { CreditCard, Calendar, Hash } from "lucide-react";
@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import UseAuth from "../../../Hooks/UseAuth";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import Pagination from "../../../Components/Pagination";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +16,8 @@ const PaymentHistory = () => {
 
   const headerRef = useRef(null);
   const tableRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
   // React Query
   const { data: payments = [], isLoading } = useQuery({
@@ -67,6 +70,13 @@ const PaymentHistory = () => {
   const totalAmount = payments.reduce(
     (sum, payment) => sum + Number(payment.amount || 0),
     0,
+  );
+
+  // Pagination Logic
+  const totalPages = Math.ceil(payments.length / ITEMS_PER_PAGE);
+  const paginatedPayments = payments.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
   );
 
   if (isLoading) {
@@ -170,7 +180,7 @@ const PaymentHistory = () => {
 
             {/* Body */}
             <tbody className="divide-y divide-white/20">
-              {payments.map((payment, i) => (
+              {paginatedPayments.map((payment, i) => (
                 <motion.tr
                   key={payment._id || i}
                   initial={{ opacity: 0, x: -20 }}
@@ -182,7 +192,7 @@ const PaymentHistory = () => {
                   className="transition-all duration-300 hover:bg-blue-500/10"
                 >
                   <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-100">
-                    {i + 1}
+                    {(currentPage - 1) * ITEMS_PER_PAGE + i + 1}
                   </td>
 
                   <td className="px-4 sm:px-6 py-3 sm:py-4">
@@ -243,6 +253,15 @@ const PaymentHistory = () => {
           )}
         </div>
       </motion.div>
+
+      {/* PAGINATION */}
+      {payments.length > ITEMS_PER_PAGE && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 };

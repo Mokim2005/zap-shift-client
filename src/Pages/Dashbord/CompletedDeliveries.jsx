@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import UseAuth from "../../Hooks/UseAuth";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import Pagination from "../../Components/Pagination";
 
 const CompletedDeliveries = () => {
   const { user } = UseAuth();
   const axiosSecure = UseAxiosSecure();
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
-  const { data: Parcels = [], } = useQuery({
+  const { data: Parcels = [] } = useQuery({
     queryKey: ["parcels", user.email, "driver-assigned"],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/parcels/rider?riderEmail=${user.email}&deliveryStatus=parcel_delivered`
+        `/parcels/rider?riderEmail=${user.email}&deliveryStatus=parcel_delivered`,
       );
       return res.data;
     },
@@ -24,6 +27,13 @@ const CompletedDeliveries = () => {
       return parcel.cost * 0.6;
     }
   };
+
+  // Pagination Logic
+  const totalPages = Math.ceil(Parcels.length / ITEMS_PER_PAGE);
+  const paginatedParcels = Parcels.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
 
   return (
     <div>
@@ -47,9 +57,9 @@ const CompletedDeliveries = () => {
             </tr>
           </thead>
           <tbody>
-            {Parcels.map((parcel, i) => (
+            {paginatedParcels.map((parcel, i) => (
               <tr key={parcel._id}>
-                <th>{i + 1}</th>
+                <th>{(currentPage - 1) * ITEMS_PER_PAGE + i + 1}</th>
                 <td>{parcel.parcelName}</td>
 
                 <td>{parcel.createdAt}</td>
@@ -58,7 +68,7 @@ const CompletedDeliveries = () => {
                 <td>${calculatePayout(parcel)}</td>
                 <td>
                   <button className="btn btn-primary text-black">
-              Cash Out
+                    Cash Out
                   </button>
                 </td>
               </tr>
@@ -66,6 +76,15 @@ const CompletedDeliveries = () => {
           </tbody>
         </table>
       </div>
+
+      {/* PAGINATION */}
+      {Parcels.length > ITEMS_PER_PAGE && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 };

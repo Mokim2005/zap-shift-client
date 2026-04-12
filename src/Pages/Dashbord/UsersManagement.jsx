@@ -7,6 +7,8 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import UseAuth from "../../Hooks/UseAuth";
+import Pagination from "../../Components/Pagination";
+import Loading from "../../Components/Loading";
 
 const UsersManagement = () => {
   const axiosSecure = UseAxiosSecure();
@@ -14,6 +16,8 @@ const UsersManagement = () => {
 
   const [searchText, setSearchText] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -91,15 +95,15 @@ const UsersManagement = () => {
   };
 
   if (authLoading || isLoading) {
-    return (
-      <div className="text-center py-20">
-        <div className="animate-spin w-10 h-10 border-4 border-blue-500 border-r-transparent rounded-full mx-auto"></div>
-        <p className="mt-4 text-lg text-white drop-shadow-lg">
-          Loading users...
-        </p>
-      </div>
-    );
+    return <Loading />;
   }
+
+  // Pagination Logic
+  const totalPages = Math.ceil(users.length / ITEMS_PER_PAGE);
+  const paginatedUsers = users.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
 
   if (error) {
     return (
@@ -200,7 +204,7 @@ const UsersManagement = () => {
           </thead>
 
           <tbody className="divide-y divide-white/20">
-            {users.map((u, i) => (
+            {paginatedUsers.map((u, i) => (
               <motion.tr
                 key={u._id}
                 initial={{ opacity: 0, y: 10 }}
@@ -212,7 +216,7 @@ const UsersManagement = () => {
                 className="transition-all duration-300 hover:bg-blue-500/10"
               >
                 <td className="p-3 sm:p-4 text-xs sm:text-sm font-medium text-gray-100">
-                  {i + 1}
+                  {(currentPage - 1) * ITEMS_PER_PAGE + i + 1}
                 </td>
 
                 <td className="p-3 sm:p-4 flex items-center gap-2 sm:gap-3 min-w-[150px] sm:min-w-[200px]">
@@ -278,6 +282,15 @@ const UsersManagement = () => {
           <div className="text-center py-10 text-gray-300">No users found</div>
         )}
       </motion.div>
+
+      {/* PAGINATION */}
+      {users.length > ITEMS_PER_PAGE && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 };

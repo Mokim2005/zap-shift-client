@@ -167,15 +167,7 @@ const MyProfile = () => {
     return roleStyles[role?.toLowerCase()] || roleStyles.user;
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center relative">
-        <div className="relative z-10">
-          <GlassLoading />
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative">

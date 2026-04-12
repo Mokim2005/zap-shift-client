@@ -7,11 +7,14 @@ import { FaTrashCan } from "react-icons/fa6";
 import { Bike } from "lucide-react";
 import Swal from "sweetalert2";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import Pagination from "../../Components/Pagination";
 
 const ApproveRider = () => {
   const axiosSecure = UseAxiosSecure();
   const tableRef = useRef(null);
   const [selectedRider, setSelectedRider] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
   // Fetch riders
   const { refetch, data: riders = [] } = useQuery({
@@ -94,6 +97,13 @@ const ApproveRider = () => {
     });
   };
 
+  // Pagination Logic
+  const totalPages = Math.ceil(riders.length / ITEMS_PER_PAGE);
+  const paginatedRiders = riders.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
+
   return (
     <div className="space-y-6 px-2 sm:px-4 md:px-8 py-2 sm:py-3 md:py-4">
       {/* Header */}
@@ -152,7 +162,7 @@ const ApproveRider = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/20">
-              {riders.map((rider, i) => (
+              {paginatedRiders.map((rider, i) => (
                 <motion.tr
                   key={rider._id}
                   initial={{ opacity: 0, x: -20 }}
@@ -164,7 +174,7 @@ const ApproveRider = () => {
                   className="transition-all duration-300 hover:bg-blue-500/10"
                 >
                   <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-100">
-                    {i + 1}
+                    {(currentPage - 1) * ITEMS_PER_PAGE + i + 1}
                   </td>
                   <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-white font-medium">
                     {rider.name}
@@ -247,6 +257,15 @@ const ApproveRider = () => {
           </table>
         </div>
       </motion.div>
+
+      {/* PAGINATION */}
+      {riders.length > ITEMS_PER_PAGE && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
 
       {/* Rider Modal */}
       <AnimatePresence>

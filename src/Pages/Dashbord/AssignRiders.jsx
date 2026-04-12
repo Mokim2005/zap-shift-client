@@ -3,12 +3,15 @@ import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package } from "lucide-react";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import Pagination from "../../Components/Pagination";
 import Swal from "sweetalert2";
 
 const AssignRiders = () => {
   const axiosSecure = UseAxiosSecure();
   const tableRef = useRef(null);
   const [selectedParcel, setSelectedParcel] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
   // Parcels
   const { data: parcels = [], refetch: parcelRefetch } = useQuery({
@@ -64,6 +67,14 @@ const AssignRiders = () => {
         }
       });
   };
+
+  // Pagination Logic
+  const totalPages = Math.ceil(parcels.length / ITEMS_PER_PAGE);
+  const paginatedParcels = parcels.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
+
   return (
     <div className="space-y-6 px-2 sm:px-4 md:px-8 py-2 sm:py-3 md:py-4">
       {/* Header */}
@@ -121,7 +132,7 @@ const AssignRiders = () => {
             </thead>
 
             <tbody className="divide-y divide-white/20">
-              {parcels.map((parcel, i) => (
+              {paginatedParcels.map((parcel, i) => (
                 <motion.tr
                   key={parcel._id}
                   initial={{ opacity: 0, x: -20 }}
@@ -133,7 +144,7 @@ const AssignRiders = () => {
                   className="transition-all duration-300 hover:bg-blue-500/10"
                 >
                   <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-100">
-                    {i + 1}
+                    {(currentPage - 1) * ITEMS_PER_PAGE + i + 1}
                   </td>
                   <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-white font-medium">
                     {parcel.parcelName}
@@ -164,6 +175,15 @@ const AssignRiders = () => {
           </table>
         </div>
       </motion.div>
+
+      {/* PAGINATION */}
+      {parcels.length > ITEMS_PER_PAGE && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
 
       {/* ===== MODAL ===== */}
       <AnimatePresence>
